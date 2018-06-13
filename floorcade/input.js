@@ -1,4 +1,4 @@
-const Gamepad = require("./node-gamepad");
+const Gamepad = require("gamepad");
 const EventEmitter = require('events');
 
 const emitter = new EventEmitter();

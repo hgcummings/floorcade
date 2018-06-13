@@ -1,3 +1,6 @@
+[submodule "intris"]
+	path = intris
+	url = git@github.com:hgcummings/intris.git
 [submodule "node-gamepad"]
 	path = node-gamepad
 	url = git@github.com:hgcummings/node-gamepad.git
