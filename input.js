@@ -1,25 +1,22 @@
-var Gamepad = require("./node-gamepad");
+const Gamepad = require("./node-gamepad");
+const EventEmitter = require('events');
+
+const emitter = new EventEmitter();
+
+const buttons = ['up', 'down', 'left', 'right'];
 
 console.log("Gamepad", Gamepad);
 
 // Create raw dispatcher to see all events.
-Gamepad.context.on = console.log;
+// Gamepad.context.on = console.log;
 
-// Gamepad.on("down", function () {
-//   console.log("DOWN", arguments);
-// });
-// Gamepad.on("up", function () {
-//   console.log("UP", arguments);
-// });
-// Gamepad.on("move", function () {
-//   console.log("MOVE", arguments);
-// });
-// Gamepad.on("attach", function () {
-//   console.log("ATTACH", arguments);
-// });
-// Gamepad.on("remove", function () {
-//   console.log("REMOVE", arguments);
-// });
+Gamepad.on("down", function (deviceId, buttonId) {
+  if (buttons[buttonId]) {
+    emitter.emit(buttons[buttonId]);
+  }
+});
+
+module.exports = emitter;
 
 console.log("init");
 Gamepad.init()
