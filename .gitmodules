@@ -1,0 +1,3 @@
+[submodule "node-gamepad"]
+	path = node-gamepad
+	url = git@github.com:hgcummings/node-gamepad.git

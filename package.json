@@ -1,0 +1,25 @@
+{
+  "name": "floorcade",
+  "version": "0.0.1",
+  "description": "Multiplayer arcade game server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd node-gamepad && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/hgcummings/floorcade.git"
+  },
+  "author": "hgcummings",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hgcummings/floorcade/issues"
+  },
+  "homepage": "https://github.com/hgcummings/floorcade#readme",
+  "dependencies": {
+    "request": "^2.87.0",
+    "request-promise-native": "^1.0.5"
+  }
+}
