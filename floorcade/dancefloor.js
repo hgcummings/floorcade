@@ -1,8 +1,9 @@
 const request = require('request-promise-native');
 const util = require('util');
 const net = require('net');
+let screen = require('./screens/loader')
 
-module.exports.activate = async (config, game) => {
+module.exports.activate = async (config) => {
     console.log('Creating server...');
     const server = net.createServer();
     console.log('Listening...');
@@ -10,7 +11,7 @@ module.exports.activate = async (config, game) => {
     await listen();
     const {port} = server.address();
 
-    console.log('Asking dancefloor to delegate...');
+    console.log(`Asking dancefloor at ${config.host}:${config.httpPort} to delegate...`);
     await request.post(`http://${config.host}:${config.httpPort}/api/delegate`, {
         json:true,
         body: {
@@ -25,10 +26,11 @@ module.exports.activate = async (config, game) => {
         socket.on('data', (data) => {    
             const [width, height] = data;
 
-            const frameData = game.render();
+            const frameData = screen.render();
 
-            console.log('Got data. Sending frame data...');
             socket.write(frameData);
         });
     });
 }
+
+module.exports.setScreen = (value) => screen = value;

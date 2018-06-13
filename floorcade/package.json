@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "dev": "nodemon ./index.js 127.0.0.1",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,9 +19,14 @@
   },
   "homepage": "https://github.com/hgcummings/floorcade#readme",
   "dependencies": {
-    "request": "^2.87.0",
-    "request-promise-native": "^1.0.5",
     "gamepad": "1.6.0",
-    "intris": "0.1.0"
+    "intris": "0.1.0",
+    "most": "^0.19.7",
+    "ramda": "^0.21.0",
+    "request": "^2.87.0",
+    "request-promise-native": "^1.0.5"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5"
   }
 }
