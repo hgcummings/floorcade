@@ -10,4 +10,8 @@ async function run() {
   dancefloor.setScreen(game);
 }
 
-run();
+run()
+  .catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
