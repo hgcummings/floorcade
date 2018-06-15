@@ -27,8 +27,7 @@ module.exports.activate = async (config) => {
             const [width, height] = data;
 
             const frameData = screen.render();
-
-            socket.write(frameData);
+            socket.write(frameData.slice(0, width * height * 3));
         });
     });
 }

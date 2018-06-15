@@ -9,7 +9,7 @@ const addMany = function addMany() {
 module.exports = class Garbage {
     constructor(players) {
         this.emitter = new EventEmitter();
-        this.emitter.setMaxListeners(players.length * players.length);
+        this.emitter.setMaxListeners(players.length ** 2);
         this.players = players;
     }
 
