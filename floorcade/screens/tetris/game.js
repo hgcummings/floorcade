@@ -33,7 +33,7 @@ const colours = [
     [255, 0, 0]  // Z
 ];
 colours[GARBAGE] = [128, 128, 128];
-const maskColours = colours.map(colour => colour.map(component => component / 2));
+const maskColours = colours.map(colour => colour.map(component => component / 8));
 
 module.exports.init = (config) => {
     const gameData = [];
