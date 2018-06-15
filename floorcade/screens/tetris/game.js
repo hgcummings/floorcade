@@ -89,12 +89,12 @@ module.exports.init = (config) => {
         return pixels;
     }
 
-    game.run(value => {
+    const activity = game.run(value => {
         data = value.data;
     });
 
     return {
-        render
+        render,
+        activity
     }
-
 }
