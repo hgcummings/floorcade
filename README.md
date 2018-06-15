@@ -15,11 +15,9 @@ Make sure you have at least one XBox One controller attached!
 * `git clone --recurse-submodules git@github.com:hgcummings/floorcade.git`
 * `cd floorcade`
 * `yarn install`
-* `cd intris`
-* `yarn run build` (TODO: make this step run automatically)
-* `cd ../floorcade`
+* `cd floorcade`
 * `yarn start`
 
 You'll need to be on the same network as the dancefloor server.
 
-To test locally, install and run the dev server from https://github.com/PhilMarsden/DanceFloorV2, then run `yarn run dev`
+To test locally, install and run the dev server from https://github.com/PhilMarsden/DanceFloorV2, then execute `yarn run dev`
