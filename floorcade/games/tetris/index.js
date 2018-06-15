@@ -18,16 +18,16 @@ const {
 const gamepad = require('../../input/gamepad');
 
 module.exports = class Game {
-  constructor() {
-    const ticker = most.constant(1, most.periodic(16));
+  constructor(player, ticker, randomSeed, external) {
     const input =
         gamepad
+            .filter(({ id }) => id === player)
             .thru(KeyMapper(most.just(InputData.methods.gamepad)))
             .thru(KeyStore(InputData.keys));
     const config = most.just(EngineData.config);
     this.stream =
       ticker
-        .thru(Engine({ config, input }));
+        .thru(Engine({ config, input, external, randomSeed }));
   }
   run(handler) {
     return new Promise((resolve, reject) => {

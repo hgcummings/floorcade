@@ -1,4 +1,6 @@
-const Game = require('../../games/tetris/index')
+const Game = require('../../games/tetris/index');
+const Garbage = require('../../games/tetris/garbage');
+const most = require('most');
 const {
     data: {
         ground: {
@@ -14,12 +16,11 @@ const {
         },
         ground: {
             EMPTY,
+            GARBAGE,
             get
         }
     }
 } = require('intris');
-
-console.log(EMPTY);
 
 const SCALE = 2;
 const colours = [
@@ -31,21 +32,26 @@ const colours = [
     [192, 0, 192], // T
     [255, 0, 0]  // Z
 ];
+colours[GARBAGE] = [128, 128, 128];
 const maskColours = colours.map(colour => colour.map(component => component / 2));
 
 module.exports.init = (config) => {
-    let data;
+    const gameData = [];
 
-    const game = new Game();
+    const ticker = most.constant(1, most.periodic(16));
+    const randomSeed = Date.now();
+    const players = [0,1,2,3];
+    const garbage = new Garbage(players);
+    const games = players.map(player => new Game(player, ticker, randomSeed, garbage.consume(player)));
     const pixels = new Uint8Array(config.width * config.height * 3);
 
-    const drawUnit = (x, y, type, mask = false) => {
+    const drawUnit = (offset, x, y, type, mask = false) => {
         if (type !== EMPTY) {
             const fillColour = mask ? maskColours[type] : colours[type];
             
             for (let i = 0; i < SCALE; ++i) {
                 for (let j = 0; j < SCALE; ++j) {
-                    const screenX = (SCALE * x) + i;
+                    const screenX = (SCALE * (x + offset)) + i;
                     const screenY = (SCALE * y) + j;
 
                     for (let z = 0; z < 3; ++z) {
@@ -56,42 +62,45 @@ module.exports.init = (config) => {
         }
     }
 
-    const drawBlock = (block, mask = false) => {
+    const drawBlock = (offset, block, mask = false) => {
         const data = getData(block);
         for (let x = 0; x < data.size.width; x++) {
             for (let y = 0; y < data.size.height; y++) {
                 if (data.data[y][x]) {
-                    drawUnit(x + block.x, y + block.y, block.type, mask);
+                    drawUnit(offset, x + block.x, y + block.y, block.type, mask);
                 }
             }
         }
     }
 
-    const drawGround = (ground) => {
+    const drawGround = (offset, ground) => {
         for (let x = 0; x < width; x++) {
             for (let y = 0; y < height; y++) {
-                drawUnit(x, y, get(ground, x, y));
+                drawUnit(offset, x, y, get(ground, x, y));
             }
         }
     };
 
     const render = () => {
         pixels.fill(0);
-        
-        if (!data) {
-            return pixels;
-        }
 
-        drawGround(data.ground);
-        drawBlock(data.maskBlock, true);
-        drawBlock(data.block);
+        gameData.forEach((data, player) => {
+            if (data && data.ground) {
+                const offset = player * width;
+                drawGround(offset, data.ground);
+                drawBlock(offset, data.maskBlock, true);
+                drawBlock(offset, data.block);
+            }
+        });
 
         return pixels;
     }
 
-    const activity = game.run(value => {
-        data = value.data;
-    });
+    const activity = Promise.all(games.map((game, player) =>
+         game.run(({ data }) => {
+            gameData[player] = data;
+            garbage.update(player, data.garbageProduced);
+         })))
 
     return {
         render,
