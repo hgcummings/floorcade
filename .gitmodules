@@ -4,3 +4,6 @@
 [submodule "node-gamepad"]
 	path = node-gamepad
 	url = git@github.com:hgcummings/node-gamepad.git
+[submodule "pixel-fonts"]
+	path = pixel-fonts
+	url = git@github.com:hgcummings/pixel-fonts.git

@@ -3284,7 +3284,7 @@ lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.4, lodash@^4.3.0, l
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
-loglevel@^1.4.1:
+loglevel@^1.4.1, loglevel@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.1.tgz#e0fc95133b6ef276cdc8887cdaf24aa6f156f8fa"
 
@@ -3597,6 +3597,10 @@ node-ninja@^1.0.1:
     semver "2.x || 3.x || 4 || 5"
     tar "^2.0.0"
     which "1"
+
+node-png@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/node-png/-/node-png-0.4.3.tgz#450223796b82d3cca0ffe4a5d5c7fa97485974e7"
 
 node-pre-gyp@^0.10.0:
   version "0.10.0"

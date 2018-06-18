@@ -1,6 +1,7 @@
 const Game = require('../../games/tetris/index');
 const Garbage = require('../../games/tetris/garbage');
 const most = require('most');
+const { fonts, renderPixels } = require("js-pixel-fonts");
 const {
     data: {
         ground: {
@@ -81,15 +82,44 @@ module.exports.init = (config) => {
         }
     };
 
+    const abbreviate = score => {
+        if (score < 10000) {
+            return score.toString(10);
+        } else if (score < 999500) {
+            return ((score) / 1000).toPrecision(3) + "k";
+        } else {
+            return ((score) / 1000000).toPrecision(3) + "M";
+        }
+    }
+
+    const drawScore = (offset, score) => {
+        const scorePixels = renderPixels(abbreviate(score), fonts.slumbers);
+        const leftEdge = ((offset + width) * SCALE) - scorePixels[0].length - 2;
+        for (let j = 0; j < scorePixels.length; ++j) {
+            for (let i = 0; i < scorePixels[j].length; ++i) {
+                for (let z = 0; z < 3; ++z) {
+                    if (scorePixels[j][i]) {
+                        pixels[((leftEdge + i + 1) + ((j + 1) * config.width)) * 3 + z] = 255;
+                    }
+                }
+            }
+        }
+    }
+
     const render = () => {
         pixels.fill(0);
 
         gameData.forEach((data, player) => {
-            if (data && data.ground) {
+            if (data) {
                 const offset = player * width;
-                drawGround(offset, data.ground);
-                drawBlock(offset, data.maskBlock, true);
-                drawBlock(offset, data.block);
+                if (typeof(data.score) == "number") {
+                    drawScore(offset, data.score);
+                }
+                if (data.ground) {
+                    drawGround(offset, data.ground);
+                    drawBlock(offset, data.maskBlock, true);
+                    drawBlock(offset, data.block);
+                }
             }
         });
 

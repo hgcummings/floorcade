@@ -1,6 +1,6 @@
 {
     "private": true,
-    "workspaces": ["floorcade", "node-gamepad", "intris"],
+    "workspaces": ["floorcade", "node-gamepad", "intris", "pixel-fonts"],
     "scripts":{
       "postinstall": "cd intris && yarn buildLib"
     }
