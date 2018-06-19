@@ -14,7 +14,7 @@ Make sure you have at least one XBox One controller attached!
 
 * `git clone --recurse-submodules git@github.com:hgcummings/floorcade.git`
 * `cd floorcade`
-* `yarn install --ignore-engines` (TODO: update `node-png` dependency so --ignore-engines isn't required)
+* `yarn install`
 * `cd floorcade`
 * `yarn start`
 

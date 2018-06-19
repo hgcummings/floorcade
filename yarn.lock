@@ -3598,10 +3598,6 @@ node-ninja@^1.0.1:
     tar "^2.0.0"
     which "1"
 
-node-png@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/node-png/-/node-png-0.4.3.tgz#450223796b82d3cca0ffe4a5d5c7fa97485974e7"
-
 node-pre-gyp@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.10.0.tgz#6e4ef5bb5c5203c6552448828c852c40111aac46"
@@ -3996,6 +3992,10 @@ pkg-up@^1.0.0:
 pluralize@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-1.2.1.tgz#d1a21483fd22bb41e58a12fa3421823140897c45"
+
+pngjs@^3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-3.3.3.tgz#85173703bde3edac8998757b96e5821d0966a21b"
 
 portfinder@0.4.x:
   version "0.4.0"
