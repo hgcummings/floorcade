@@ -29,9 +29,7 @@ module.exports.activate = async (config) => {
         console.log('Got connection. Waiting for data...');
         socket.on('data', (data) => {    
             const [width, height] = data;
-
-            const frameData = screen.render();
-            socket.write(frameData.slice(0, width * height * 3));
+            screen.render(width, height, socket);
         });
     });
 }

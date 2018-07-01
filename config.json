@@ -2,8 +2,6 @@
     "dancefloor": 
     {
         "host": "dancefloor.zoo.lan",
-        "httpPort": 1977,
-        "width": 72,
-        "height": 36
+        "httpPort": 1977
     }
 }

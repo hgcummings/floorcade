@@ -1,0 +1,16 @@
+{
+  "name": "floorcade-games-tetris",
+  "version": "0.0.1",
+  "description": "Tetris implementation for Floorcade",
+  "main": "controller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "hgcummings",
+  "license": "MIT",
+  "dependencies": {
+    "argparse": "^1.0.10",
+    "js-pixel-fonts": "1.3.0",
+    "most": "^0.19.7"
+  }
+}
