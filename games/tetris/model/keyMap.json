@@ -1,0 +1,11 @@
+{
+    "DL": "move-left",
+    "DR": "move-right",
+    "DD": "drop",
+    "DU": "hard-drop",
+    "FB": "rotate-left",
+    "FR": "rotate-right",
+    "LS": "hold",
+    "RS": "hold",
+    "FT": "hold"
+}

@@ -1,16 +1,18 @@
 const config = require('./config.json');
 const dancefloor = require('./dancefloor');
-const gameFactory = require('./screens/tetris/game');
+const menuFactory = require('./screens/menu');
 
 config.dancefloor.host = process.argv[2] || config.dancefloor.host;
 config.dancefloor.port = process.argv[3] || config.dancefloor.port;
 
+const currentScreen = menuFactory.init();
+
 async function run() {
-  const game = gameFactory.init(config.dancefloor);
   await dancefloor.activate(config.dancefloor);
-  dancefloor.setScreen(game);
-  await game.activity;
-  console.log('Game over');
+  while (currentScreen) {
+    dancefloor.setScreen(currentScreen);
+    currentScreen = await currentScreen.next();
+  }
 }
 
 run()

@@ -1,9 +1,3 @@
-[submodule "intris"]
-	path = intris
-	url = git@github.com:hgcummings/intris.git
-[submodule "node-gamepad"]
-	path = node-gamepad
-	url = git@github.com:hgcummings/node-gamepad.git
-[submodule "pixel-fonts"]
-	path = pixel-fonts
-	url = git@github.com:hgcummings/pixel-fonts.git
+[submodule "games/tetris/outris"]
+	path = games/tetris/outris
+	url = git@github.com:hgcummings/outris.git
