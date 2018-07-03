@@ -2,6 +2,7 @@
  * Responsible for handling the game protocol (input and output) as described in the README.
  * Nothing below is game-specific; all games will need to implement the functionality below.
  */
+const readline = require('readline');
 const modelFactory = require('./model');
 const viewFactory = require('./view');
 const most = require('most');
@@ -12,28 +13,27 @@ parser.addArgument(['--width']);
 parser.addArgument(['--height']);
 const config = parser.parseArgs();
 
-process.stdin.setEncoding('utf8');
-
-const playerEvents = most.fromEvent('data', process.stdin)
-    .filter(data => data[0] === 'P')
-    .map(data => ({
-            id: parseInt(data[1], 10),
-            key: data.substr(2, 2),
-            type: data[4] === '1' ? 'down' : 'up'
+const input = readline.createInterface(process.stdin);
+const playerEvents = most.fromEvent('line', input)
+    .filter(event => event[0] === 'P')
+    .map(event => ({
+            id: parseInt(event[1], 10),
+            key: event.substr(2, 2),
+            type: event[4] === '1' ? 'down' : 'up'
         }));    
 
 const model = modelFactory.init(playerEvents);
 const view = viewFactory.init(config, model.state);
 
-process.stdin.on('data', data => {
-    if (data.trim() === 'STICK') {
+input.on('line', event => {
+    if (event.trim() === 'STICK') {
         process.stdout.write(view.render());
-    } else if (data.trim() === 'SKILL') {
+    } else if (event.trim() === 'SKILL') {
         process.exit();
     }
 });    
 
-console.log('READY');
+process.stdout.write('READY\n');
 
 model.activity
   .then(() => process.exit(0))
