@@ -15,7 +15,7 @@ if (!gamepads.length) {
 
 module.exports = (playerCount, writeStream) => {
     while (activeDevices.length) {
-        activeDevices.pop().clearAllListeners('data');
+        activeDevices.pop().removeAllListeners('data');
     }
     
     const on = (player, button) => writeStream.write(`P${player}${button}1\n`);
