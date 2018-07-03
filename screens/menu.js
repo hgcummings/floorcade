@@ -17,7 +17,7 @@ module.exports.init = () => {
             ...require('../' + configFile.replace(/\\/g, '/'))
         }));
 
-    let resolveNext, selected = 0;
+    let resolveNext, selected = 0, offset = 0;
     
     const nextPromise = new Promise((resolve) => {
         resolveNext = resolve;
@@ -29,9 +29,11 @@ module.exports.init = () => {
             if (action[4] === '1') {
                 const button = action.substr(2, 2);
                 if (button == 'DU') {
-                    selected = (selected - 1 + games.length) % games.length;
+                    selected = Math.max(0, selected - 1);
+                    offset = Math.min(offset, selected);
                 } else if (button == 'DD') {
-                    selected = (selected + 1) % games.length;
+                    selected = Math.min(games.length - 1, selected + 1);
+                    offset = Math.max(offset, selected - 3);
                 } else if (button[0] === 'F' || button[0] === 'S') {
                     resolveNext(gameScreen.init(games[selected]));
                 }
@@ -52,7 +54,7 @@ module.exports.init = () => {
         
         const lineBuffer = new Uint8Array(width * 3);
         for (let y = 0; y < height; ++y) {
-            const itemIndex = Math.floor(y / itemHeight);
+            const itemIndex = Math.floor(y / itemHeight) + offset;
             const item = items[itemIndex];
             const invert = itemIndex === selected;
             const pixelsIndex = y % itemHeight - 1;
@@ -73,7 +75,7 @@ module.exports.init = () => {
             }
             stream.write(lineBuffer);
         }
-    }
+    };
     
     return {
         render,
