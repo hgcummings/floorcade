@@ -9,7 +9,7 @@ const {
             GARBAGE
         }
     }
-} = require('./outris');
+} = require('./extris');
 
 const SCALE = 2;
 const colours = [

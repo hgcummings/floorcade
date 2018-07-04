@@ -12,7 +12,7 @@ const {
             keyStore: KeyStore
         }
     }
-} = require('../outris');
+} = require('../extris');
 
 module.exports = class Game {
   constructor(player, ticker, inputEvents, playfield, randomSeed, external) {
