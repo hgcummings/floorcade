@@ -90,7 +90,7 @@ Note that the game **must** write exactly one frame of pixel data to stdout each
 
 Events will be sent to the game on stdin as follows...
 
-Each event consists of five low-ascii characters followed by a newline (i.e. exactly six bytes). When implementing a game, this allows you to read each event as a line, or a fixed number of bytes, or whatever's easiest in your programming language of choice.
+Each event consists of five low-ascii characters followed by a newline, i.e. exactly six bytes. When implementing a game, this allows you to read each event as a line, or a fixed number of bytes, or whatever's easiest in your programming language of choice. (Note: in languages with event-based stream consumption, multiple lines may be buffered into a single event, so you may recieve 6n bytes at a time rather than always exactly 6. Be sure to process all of them.)
 
 The first byte indicates the event type: `S` for system events and `P` for player events.
 

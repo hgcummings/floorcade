@@ -1,9 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const { Writable } = require('stream');
 const { fonts, renderPixels } = require("js-pixel-fonts");
 const gameScreen = require('./game');
 const input = require('../input');
-const { Writable } = require('stream');
 
 module.exports.init = () => {
     const games = fs.readdirSync('./games')
