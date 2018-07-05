@@ -1,14 +1,14 @@
 const config = require('./config.json');
 const dancefloor = require('./dancefloor');
-const menuFactory = require('./screens/menu');
+const bootScreen = require('./screens/boot');
 
 config.dancefloor.host = process.argv[2] || config.dancefloor.host;
 config.dancefloor.port = process.argv[3] || config.dancefloor.port;
 
-let currentScreen = menuFactory.init();
+let currentScreen = bootScreen.init();
 
 async function run() {
-  await dancefloor.activate(config.dancefloor);
+  await dancefloor.init(config.dancefloor, currentScreen);
   while (currentScreen) {
     dancefloor.setScreen(currentScreen);
     currentScreen = await currentScreen.next();

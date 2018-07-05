@@ -4,9 +4,10 @@ const net = require('net');
 const dnsLookup = util.promisify(require('dns').lookup);
 const os = require('os');
 
-let screen = require('./screens/loader')
+let screen;
 
-module.exports.activate = async (config) => {
+module.exports.init = async (config, initialScreen) => {
+    screen = initialScreen;
     console.log('Creating server...');
     const server = net.createServer();
     const listen = util.promisify(server.listen).bind(server);
