@@ -15,7 +15,8 @@ module.exports.init = (gameConfig) => {
                 gameConfig.command,
                 ['--width', width,'--height', height],
                 {
-                    cwd: gameConfig.workingDir
+                    cwd: gameConfig.workingDir,
+                    stdio: ['pipe', 'pipe', 'inherit']
                 }
             );
 
@@ -51,7 +52,7 @@ module.exports.init = (gameConfig) => {
             stream.write(loadingPixels);
         }
     }
-    
+
     return {
         render,
         next: () => nextPromise
