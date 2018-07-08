@@ -23,11 +23,11 @@ const playerEvents = most.fromEvent('line', input)
         }));    
 
 const model = modelFactory.init(playerEvents);
-const view = viewFactory.init(config, model.state);
+const view = viewFactory.init(config);
 
 input.on('line', event => {
     if (event.trim() === 'STICK') {
-        process.stdout.write(view.render());
+        process.stdout.write(view.render(model.state));
     } else if (event.trim() === 'SKILL') {
         process.exit();
     }

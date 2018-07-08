@@ -24,10 +24,10 @@ const colours = [
 colours[GARBAGE] = [128, 128, 128];
 const maskColours = colours.map(colour => colour.map(component => component / 8));
 
-module.exports.init = (config, state) => {
+module.exports.init = (config) => {
     const pixels = new Uint8Array(config.width * config.height * 3);
 
-    const render = () => {
+    const render = (state) => {
         pixels.fill(0);
 
         state.forEach((playerState, index) => {

@@ -116,7 +116,7 @@ const render = (frameBuffer) => {
             cursor.bg.rgb(frameBuffer[pixel], frameBuffer[pixel + 1], frameBuffer[pixel + 2]);
             for (let i = x * hScale; i < (x + 1) * hScale; ++i) {
                 for (let j = y * vScale; j < (y + 1) * vScale; ++j) {
-                    cursor.goto(i, j);
+                    cursor.goto(i + 1, j + 1);
                     cursor.write(' ');
                 }
             }
