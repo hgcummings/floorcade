@@ -24,7 +24,7 @@ const EMPTY = {
 module.exports.render = ({width, height}, {players}, pixels) => {
     const table = [
         [EMPTY, ...playerLabels],
-        ...(['kills', 'place', 'total'].map(row => [
+        ...(['place', 'kills', 'total'].map(row => [
             rowLabels[row],
             ...(players.map(p => ({
                 pixels: renderPixels(p[row].toString(), FONT),
