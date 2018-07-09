@@ -1,8 +1,0 @@
-{
-    "title": "Dot",
-    "command": "node index.js",
-    "players": {
-        "min": 1,
-        "max": 1
-    }
-}

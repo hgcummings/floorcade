@@ -1,7 +1,0 @@
-{
-    "title": "Pong",
-    "players": {
-        "min": 2,
-        "max": 2
-    }
-}
