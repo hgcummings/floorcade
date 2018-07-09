@@ -40,7 +40,7 @@ module.exports.init = () => {
         return stream.write(pixels);
     }
 
-    setTimeout(() => resolveNext(menuScreen.init()), 10000);
+    setTimeout(() => resolveNext(menuScreen.init()), 4000);
     
     return {
         render,
