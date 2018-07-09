@@ -58,7 +58,7 @@ module.exports.init = () => {
             const item = items[itemIndex];
             const invert = itemIndex === selected;
             const pixelsIndex = y % itemHeight - 1;
-            if (item.pixels[pixelsIndex]) {
+            if (item && item.pixels[pixelsIndex]) {
                 for (let x = 0; x < width; ++x) {
                     for (z = 0; z < 3; ++z) {
                         if (item.pixels[pixelsIndex][x - 1]) {
