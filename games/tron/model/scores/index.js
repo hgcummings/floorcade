@@ -14,7 +14,7 @@ module.exports.init = (playersFromRound, playerTotals) => {
 }
 
 async function countScores(players) {
-    sleep(1500);
+    await sleep(1500);
     while(players.some(p => p.kills > 0 || p.place > 0)) {
         players.forEach(p => {
             if (p.kills > 0) {
