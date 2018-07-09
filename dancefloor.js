@@ -1,7 +1,6 @@
 const request = require('request-promise-native');
 const util = require('util');
 const net = require('net');
-const dnsLookup = util.promisify(require('dns').lookup);
 const os = require('os');
 
 let screen;
@@ -13,7 +12,12 @@ module.exports.init = async (config, initialScreen) => {
     const listen = util.promisify(server.listen).bind(server);
     await listen();
 
-    const host = (await dnsLookup(os.hostname())).address;
+    const host = getIpAddress();
+
+    if (!host) {
+        throw new Error('Could not determine local IP address');
+    }
+
     const {port} = server.address();
 
     console.log(`Asking dancefloor at ${config.host}:${config.httpPort} to delegate to ${host}:${port}...`);
@@ -33,6 +37,17 @@ module.exports.init = async (config, initialScreen) => {
             screen.render(width, height, socket);
         });
     });
+}
+
+const getIpAddress = () => {
+    const ifaces = os.networkInterfaces();
+    for (let name of Object.keys(ifaces)) {
+        for (iface of ifaces[name]) {
+            if (iface.family === 'IPv4' && !iface.internal) {
+                return iface.address;
+            }
+        }
+    }
 }
 
 module.exports.setScreen = (value) => screen = value;
