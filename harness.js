@@ -42,10 +42,12 @@ const configPath = path.join(workingDir, 'game.json');
 console.log('Loading config from ', configPath);
 
 const gameConfig = require('./' + configPath.replace('/\\/g', '/'));
+const [command, ...args] = gameConfig.command.split(' ');
+args.push(...['--width',width,'--height',height]);
 
 game = spawn(
-    gameConfig.command,
-    ['--width',width,'--height',height],
+    command,
+    args,
     {
         cwd: workingDir,
         stdio: ['pipe', 'pipe', 'inherit']

@@ -11,9 +11,12 @@ module.exports.init = (gameConfig) => {
 
     const render = (width, height, stream) => {
         if (!game) {
+            const [command, ...args] = gameConfig.command.split(' ');
+            args.push(...['--width',width,'--height',height]);
+
             game = spawn(
-                gameConfig.command,
-                ['--width', width,'--height', height],
+                command,
+                args,
                 {
                     cwd: gameConfig.workingDir,
                     stdio: ['pipe', 'pipe', 'inherit']
