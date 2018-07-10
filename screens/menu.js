@@ -1,27 +1,17 @@
-const fs = require('fs');
-const path = require('path');
 const { Writable } = require('stream');
 const { fonts, renderPixels } = require("js-pixel-fonts");
+const { list } = require('../games');
 const gameScreen = require('./game');
 const input = require('../input');
 
 module.exports.init = () => {
-    const games = fs.readdirSync('./games')
-        .map(directory => ({
-            workingDir: path.join('./games', directory),
-            configFile: path.join('./games', directory, 'game.json')
-        }))
-        .filter(({configFile}) => fs.existsSync(configFile))
-        .map(({workingDir, configFile}) => ({
-            workingDir,
-            ...require('../' + configFile.replace(/\\/g, '/'))
-        }));
-
     let resolveNext, selected = 0, offset = 0;
     
     const nextPromise = new Promise((resolve) => {
         resolveNext = resolve;
     });
+
+    const games = list();
 
     const inputProcessor = new Writable({
         write(chunk, encoding, callback) {

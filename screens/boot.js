@@ -2,11 +2,7 @@ const { fonts, renderPixels } = require("js-pixel-fonts");
 const menuScreen = require('./menu');
 
 module.exports.init = () => {
-    let pixels, resolveNext;
-
-    const nextPromise = new Promise((resolve) => {
-        resolveNext = resolve;
-    });
+    let pixels;
 
     const render = (width, height, stream) => {
         if (!pixels) {
@@ -40,11 +36,9 @@ module.exports.init = () => {
         return stream.write(pixels);
     }
 
-    setTimeout(() => resolveNext(menuScreen.init()), 4000);
-    
     return {
         render,
-        next: () => nextPromise
+        next: Promise.resolve(menuScreen.init())
     }
 }
 
