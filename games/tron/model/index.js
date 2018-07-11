@@ -6,7 +6,7 @@ async function runGame({width, height}, state, input) {
     let playerTotals = [0,0,0,0];
     let topScore = 0;
 
-    while (topScore < 50 || playerTotals.filter(total => total === topScore).length > 1) {
+    while (topScore < 25 || playerTotals.filter(total => total === topScore).length > 1) {
         state.round = roundFactory.init({width, height}, input);
         await state.round.activity;
         const players = state.round.players;
