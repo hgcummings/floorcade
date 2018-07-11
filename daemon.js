@@ -12,7 +12,7 @@ const STATE = {
     RUNNING: 2
 }
 
-const spawnOpts = { stdio: ['inherit', 'inherit', 'inherit'] };
+const spawnOpts = { stdio: ['inherit', 'inherit', 'inherit'], cwd: __dirname };
 
 let currentState = STATE.OFF;
 
