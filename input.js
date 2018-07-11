@@ -2,7 +2,7 @@ const HID = require('node-hid');
 
 // Names as per https://wiki.unrealengine.com/List_of_Key/Gamepad_Input_Names#Gamepads
 const axes = [['DL','DR'], ['DU','DD']];
-const btns = ['FR','FB','FL','FT','LS','RS','SL','SR'];
+const btns = ['FR','FB','FT','FL','LS','RS','SL','SR'];
 
 const activePlayers = [];
 const gamepads = HID.devices().filter(device => 
