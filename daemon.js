@@ -38,7 +38,8 @@ setInterval(() => {
     }
 }, 500);
 
-power.watch(value => {
+power.watch((err, value) => {
+    console.log('Detected power', value);
     light.writeSync(value);
 
     switch (currentState) {
@@ -68,7 +69,8 @@ power.watch(value => {
     }
 });
 
-reset.watch(_ => {
+reset.watch(() => {
+    console.log('Detected reset');
     if (currentState === STATE.RUNNING) {
         console.log('Resetting');
         child.kill();
