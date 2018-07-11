@@ -13,8 +13,10 @@ config.dancefloor.port = process.argv[3] || config.dancefloor.port;
 
 async function run() {
     await dancefloor.init(config.dancefloor, bootScreen.init());
-    const pullSummary = await git().pull('origin', 'master', { '--recurse-submodules': null });
-
+    const pullSummary =
+        await git()
+            .env('GIT_SSH_COMMAND', 'ssh -i /home/pi/.ssh/id_rsa -o UserKnownHostsFile=/home/pi/.ssh/known_hosts')
+            .pull('origin', 'master', { '--recurse-submodules': null });
     const changedPaths = pullSummary.files.map(path.normalize);
     const games = list();
 
