@@ -18,13 +18,13 @@ let currentState = STATE.OFF;
 
 const spawnMain = (code) => {
     if (power.readSync()) {
-        if (code === 0) {
+        if (code) {
+            console.error('Child process exited with error code', code);
+            currentState = STATE.ERROR;
+        } else {
             console.log('Child process exited cleanly. Restarting.')
             child = spawn('node', ['index.js'], spawnOpts);
             child.on('exit', spawnMain);
-        } else {
-            console.error('Child process exited with error code', code);
-            currentState = STATE.ERROR;
         }    
     } else {
         console.log('Powering off');
@@ -74,6 +74,5 @@ reset.watch(() => {
     if (currentState === STATE.RUNNING) {
         console.log('Resetting');
         child.kill();
-        spawnMain(0);
     }
 });
