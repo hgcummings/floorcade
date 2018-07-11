@@ -20,7 +20,7 @@ const playerEvents = most.fromEvent('line', input)
             id: parseInt(event[1], 10),
             key: event.substr(2, 2),
             type: event[4] === '1' ? 'down' : 'up'
-        }));    
+        }));
 
 const model = modelFactory.init(playerEvents);
 const view = viewFactory.init(config);
@@ -31,7 +31,7 @@ input.on('line', event => {
     } else if (event.trim() === 'SKILL') {
         process.exit();
     }
-});    
+});
 
 process.stdout.write('READY\n');
 
