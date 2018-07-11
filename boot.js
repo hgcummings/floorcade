@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const execFile = require('util').promisify(require('child_process').execFile);
 const git = require('simple-git/promise');
+const { spawn } = require('child_process');
 
 const config = require('./config.json');
 const dancefloor = require('./dancefloor');
@@ -26,13 +26,17 @@ async function run() {
             if (fs.existsSync(installScript)) {
                 try {
                     console.log(`Executing install script in ${game.workingDir}`);
-                    const result = await execFile('install.sh', { cwd: game.workingDir });
-                    if (result.stdout) {
-                        console.log(result.stdout);
-                    }
-                    if (result.stderr) {
-                        console.error(result.stderr);
-                    }
+                    const child = spawn('./install.sh', { cwd: game.workingDir, stdio: ['inherit', 'inherit', 'inherit'] });
+                    await new Promise((resolve, reject) => {
+                        child.on('exit', (code) => {
+                            if (code === 0) {
+                                console.log('Install script completed successfully');
+                                resolve();
+                            } else {
+                                reject(`Child process returned code ${code}`);
+                            }
+                        })
+                    });
                 } catch (e) {
                     console.error(e);
                 }
