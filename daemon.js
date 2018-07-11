@@ -12,18 +12,22 @@ const STATE = {
     RUNNING: 2
 }
 
+const spawnOpts = { stdio: ['inherit', 'inherit', 'inherit'] };
+
 let currentState = STATE.OFF;
 
 const spawnMain = (code) => {
     if (power.readSync()) {
         if (code === 0) {
-            child = spawn('node', ['index.js']);
+            console.log('Child process exited cleanly. Restarting.')
+            child = spawn('node', ['index.js'], spawnOpts);
             child.on('exit', spawnMain);
         } else {
             console.error('Child process exited with error code', code);
             currentState = STATE.ERROR;
         }    
     } else {
+        console.log('Powering off');
         currentState = STATE.OFF;
     }
 }
@@ -41,7 +45,7 @@ power.watch(value => {
         case STATE.OFF:
             if (value) {
                 currentState = STATE.BOOT;
-                child = spawn('node', ['boot.js']);
+                child = spawn('node', ['boot.js'], spawnOpts);
                 child.on('exit', code => {
                     currentState = STATE.RUNNING;
                     spawnMain(code);
@@ -52,11 +56,13 @@ power.watch(value => {
             break;
         case STATE.ERROR:
             if (!value) {
+                console.log('Powering off');
                 currentState = STATE.OFF;
             }
         case STATE.RUNNING:
             if (!value) {
                 child.kill();
+                console.log('Powering off');
                 currentState = STATE.OFF;
             }
     }
@@ -64,6 +70,7 @@ power.watch(value => {
 
 reset.watch(_ => {
     if (currentState === STATE.RUNNING) {
+        console.log('Resetting');
         child.kill();
         spawnMain(0);
     }

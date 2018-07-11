@@ -23,8 +23,14 @@ async function run() {
             const installScript = path.join(game.workingDir, 'install.sh');
             if (fs.existsSync(installScript)) {
                 try {
-                    console.log('executing', game.workingDir);
-                    await execFile('install.sh', { cwd: game.workingDir });
+                    console.log(`Executing install script in ${game.workingDir}`);
+                    const result = await execFile('install.sh', { cwd: game.workingDir });
+                    if (result.stdout) {
+                        console.log(result.stdout);
+                    }
+                    if (result.stderr) {
+                        console.error(result.stderr);
+                    }
                 } catch (e) {
                     console.error(e);
                 }
