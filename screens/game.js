@@ -42,7 +42,7 @@ module.exports.init = (gameConfig) => {
                 }
             }
         } else {
-            const data = game.stdout.read(6);
+            const data = game.stdout.read();
             if (data && data.toString('utf8').trim() === 'READY') {
                 started = true;
                 input(gameConfig.players.max, game.stdin);

@@ -58,7 +58,7 @@ game.stdout.pause();
 let started = false;
 const tickToken = setInterval(() => {
     if (!started) {
-        data = game.stdout.read(6);
+        data = game.stdout.read();
         if (data && data.toString('utf8').trim() === 'READY') {
             start();
         }

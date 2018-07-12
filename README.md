@@ -82,15 +82,15 @@ The game process **must** exit when the game has been completed.
 
 When the game is initialised and ready to run, it **must** send the string `READY\n` to stdout.
 
-After this, each time the game recieves a 'tick' event from the parent process (see below) it **must** send exactly `width * height * 3` bytes to stdout. Each byte represents one RGB colour channel in a single pixel of the display (line by line, starting from the top of the screen).
+After this, each time the game receives a 'tick' event from the parent process (see below) it **must** send exactly `width * height * 3` bytes to stdout. Each byte represents one RGB colour channel in a single pixel of the display (line by line, starting from the top of the screen).
 
-Note that the game **must** write exactly one frame of pixel data to stdout each time it recieves a tick event, and **must not** send any other data to stdout (i.e. must not log any other messages to the console). Games may use stderr for debugging purposes.
+Note that the game **must** write exactly one frame of pixel data to stdout each time it receives a tick event, and **must not** send any other data to stdout (i.e. must not log any other messages to the console). Games may use stderr for debugging purposes.
 
 ### Input
 
 Events will be sent to the game on stdin as follows...
 
-Each event consists of five low-ascii characters followed by a newline, i.e. exactly six bytes. When implementing a game, this allows you to read each event as a line, or a fixed number of bytes, or whatever's easiest in your programming language of choice. (Note: in languages with event-based stream consumption, multiple lines may be buffered into a single event, so you may recieve 6n bytes at a time rather than always exactly 6. Be sure to process all of them.)
+Each event consists of five low-ascii characters followed by a newline, i.e. exactly six bytes. When implementing a game, this allows you to read each event as a line, or a fixed number of bytes, or whatever's easiest in your programming language of choice. (Note: in languages with event-based stream consumption, multiple lines may be buffered into a single event, so you may receive 6n bytes at a time rather than always exactly 6. Be sure to process all of them.)
 
 The first byte indicates the event type: `S` for system events and `P` for player events.
 
