@@ -5,7 +5,7 @@ Arcade games for the dance floor
 ## Pre-requisites
 
 * [Node.js 10 or higher](https://nodejs.org/)
-* [Platform build tools for node-gyp](https://github.com/nodejs/node-gyp#installation)
+* (For integration or production mode) [Platform build tools for node-gyp](https://github.com/nodejs/node-gyp#installation)
 
 ## Install
 
@@ -13,25 +13,9 @@ Arcade games for the dance floor
 * `cd floorcade`
 * `npm install`
 
+Note the `--recurse-submodules` argument, which you should add when cloning and pulling. If you forget to include this in the initial clone, run `git submodule update --init`.
+
 ## Run
-
-### Production mode
-
-```
-npm run prod
-```
-
-Must be executed on a machine on the same network as the dancefloor server, with four USB gamepads attached. The optional dependency `node-hid` must have installed successfully.
-
-### Development mode
-
-```
-npm run dev
-```
-
-Must be executed on a machine with the Dancefloor dev server from https://github.com/PhilMarsden/DanceFloorV2 running locally, and with one or more USB gamepads attached. The optional dependency `node-hid` must have installed successfully.
-
-In dev mode, you can use a single gamepad to control multiple players. Cycle between players using the Turbo and Select buttons on the gamepad. These button presses are not exposed as events to the rest of the application.
 
 ### Individual game test harness
 
@@ -59,6 +43,24 @@ Controller input is emulated via the keyboard using the mapping below. By defaul
 ```
 
 (Note that controller emulation is based on the standard input stream. A single button press is emulated each time the corresponding character is typed. This means that holding down a key will emulate repeatedly tapping the corresponding button at your system's keyboard repeat rate. For many games, this will have a similar effect to holding down the button, but it may not be identical in all cases.)
+
+### Integration mode
+
+```
+npm run dev
+```
+
+Must be executed on a machine with the Dancefloor dev server from https://github.com/PhilMarsden/DanceFloorV2 running locally, and with one or more USB gamepads attached. The optional dependency `node-hid` must have installed successfully.
+
+In dev mode, you can use a single gamepad to control multiple players. Cycle between players using the Turbo and Select buttons on the gamepad. These button presses are not exposed as events to the rest of the application.
+
+### Production mode
+
+```
+npm run prod
+```
+
+Must be executed on a machine on the same network as the dancefloor server, with four USB gamepads attached. The optional dependency `node-hid` must have installed successfully.
 
 ## Implementing games
 
