@@ -1,2 +1,5 @@
 node_modules
 *.log
+
+// IDEA IDE configuration
+.idea/*
