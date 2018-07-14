@@ -7,7 +7,7 @@ module.exports.init = ({width, height}) => {
   const background = new Array(height).fill(new Array(width).fill(palette.background));
   const render = state => {
       let pixels = background;
-      pixels = bat.render(state, pixels);
+      state.bats.forEach(b => pixels = bat.render({bat: b}, pixels))
       return (new Uint8Array(_.flattenDeep(pixels)));
   }
 
