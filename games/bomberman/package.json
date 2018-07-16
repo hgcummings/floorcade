@@ -11,6 +11,7 @@
   "author": "hgcummings",
   "license": "MIT",
   "dependencies": {
+    "@types/lodash": "^4.14.112",
     "argparse": "^1.0.10",
     "js-pixel-fonts": "1.5.0",
     "lodash": "^4.17.10",

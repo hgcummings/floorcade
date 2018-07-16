@@ -36,10 +36,10 @@ input.on('line', event => {
 });    
 
 process.stdout.write('READY\n');
-
 model.activity
   .then(() => process.exit(0))
   .catch(err => {
+    require('fs').appendFileSync('error.txt', JSON.stringify(err) + "\n");
     console.error(err);
     process.exit(1);
   });

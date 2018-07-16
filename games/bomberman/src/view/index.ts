@@ -1,11 +1,12 @@
-const round = require('./round');
+import { renderRound } from './renderRound';
+import { GameState } from '../model'
 
 export const init = ({width, height}) => {
     const pixels = new Uint8Array(width * height * 3);
 
-    const render = state => {
+    const render = (state: GameState) => {
         if (state.round) {
-            round.render(state.round, pixels);
+            renderRound(state.round, pixels);
         }
         return pixels;
     }
