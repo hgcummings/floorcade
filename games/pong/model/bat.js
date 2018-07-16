@@ -11,7 +11,7 @@ module.exports = class Bat {
         this.height = orientation === orientations.horizontal ? 2 : 5;
         this.width = orientation === orientations.vertical ? 2 : 10;
         this.orientation = orientation;
-        this.lives = 3;
+        this.lives = 6;
         this.wall = wall;
     }
 
