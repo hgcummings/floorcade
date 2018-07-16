@@ -40,7 +40,7 @@ async function runGame({ width, height }, state, input) {
                 movement[1]++;
             }
         }
-        if (e.key === 'DD' && e.type === 'down') {
+        if (e.key === 'DD') {
             if (e.type === 'down'){
                 movement[1]++;
             }
@@ -48,7 +48,7 @@ async function runGame({ width, height }, state, input) {
                 movement[1]--;
             }
         }
-        if (e.key === 'DR' && e.type === 'down') {
+        if (e.key === 'DR') {
             if (e.type === 'down'){
                 movement[0]++;
             }
@@ -56,7 +56,7 @@ async function runGame({ width, height }, state, input) {
                 movement[0]--;
             }
         }
-        if (e.key === 'DL' && e.type === 'down') {
+        if (e.key === 'DL') {
             if (e.type === 'down'){
                 movement[0]--;
             }
