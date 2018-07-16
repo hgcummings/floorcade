@@ -18,10 +18,10 @@ async function runGame({ width, height }, state, input) {
     };
 
     state.bats = [
-        new Bat({ id: 1, x: 1, y: 15 }),
-        new Bat({ id: 2, x: 30, y: 1, orientation: orientations.horizontal }),
-        new Bat({ id: 3, x: 70, y: 15 }),
-        new Bat({ id: 4, x: 30, y: 34, orientation: orientations.horizontal }),
+        new Bat({ id: 1, x: 1, y: 15, wall: walls.find(w => w.player === 1) }),
+        new Bat({ id: 2, x: 30, y: 1, orientation: orientations.horizontal, wall: walls.find(w => w.player === 2)  }),
+        new Bat({ id: 3, x: 70, y: 15, wall: walls.find(w => w.player === 3)  }),
+        new Bat({ id: 4, x: 30, y: 34, orientation: orientations.horizontal, wall: walls.find(w => w.player === 4)  }),
     ];
     state.balls = [
         ballFactory.newBall({
@@ -64,7 +64,7 @@ async function runGame({ width, height }, state, input) {
                 movement[0]++;
             }
         }
-        state.bats.filter(b => b.id === e.id).forEach(b => b.changeVelocity(...movement));
+        state.bats.filter(b => b.id === e.id).forEach(b => b.changeVelocity(...movement.map(m => m * 2)));
 
         if (e.type === 'down') {
             state.balls.forEach(b => b.move(state.bats, state.walls, {width, height}));

@@ -14,17 +14,17 @@ module.exports = class Ball {
     }
 
     move(bats, walls, {width, height}) {
-        const collidingBats = bats.filter(b => this.collidesWith(b.pixels()));
+        const collidingBats = bats.filter(b => this.collidesWithBat(b));
 
         // BAT collision
         if (collidingBats.some(b => b)) {
             if (collidingBats.some(b => b.orientation === orientations.horizontal)) {
                 this.makeBall({ x: this.x, y: this.y, dx: this.dx * -1, dy: this.dy * -1, makeBall: this.makeBall });
-                this.dy *= -1;
+                this.dy *= -1 * (Math.random());
             }
             if (collidingBats.some(b => b.orientation === orientations.vertical)) {
                 this.makeBall({ x: this.x, y: this.y, dx: this.dx * -1, dy: this.dy * -1, makeBall: this.makeBall });
-                this.dx *= -1;
+                this.dx *= -1 * (Math.random());
             }
         }
 
@@ -54,7 +54,28 @@ module.exports = class Ball {
             && pixels.map(p => p.y).includes(nextY);
     }
 
+    collidesWithBat(bat) {
+        const nextX = this.x + this.dx;
+        const nextY = this.y + this.dy;
+        if (bat.orientation === orientations.vertical){
+            if (bat.wall.name === 'LEFT'){
+                return nextY >= bat.y && nextY <= bat.y + bat.height && nextX < bat.x + bat.width;
+            }
+            if (bat.wall.name === 'RIGHT'){
+                return nextY >= bat.y && nextY <= bat.y + bat.height && nextX >= bat.x;
+            }
+        }
+        if (bat.orientation === orientations.horizontal){
+            if (bat.wall.name === 'TOP'){
+                return nextX >= bat.x && nextX <= bat.x + bat.width && nextY < bat.y + bat.height;
+            }
+            if (bat.wall.name === 'BOTTOM'){
+                return nextX >= bat.x && nextX <= bat.x + bat.width && nextY >= bat.y;
+            }
+        }
+    }
+
     pixels() {
-        return [{ x: this.x, y: this.y }];
+        return [{ x: Math.floor(this.x), y: Math.floor(this.y)}];
     }
 };
