@@ -1,14 +1,13 @@
 import { Observable } from 'rxjs';
-import { scan } from 'rxjs/operators';
 
 export interface State {
-    playerY: number;
+    player: { x: number, y: number };
+    pipes: { x: number, topY: number, bottomY: number }[];
 }
 
-export function init(width: number, height: number, inputEvents) {
-    const input = scanInput(inputEvents);
-    const state = { playerY: 10 };
-    const activity = runGame(width, height, state, input);
+export function init(width: number, height: number, inputEvents: Observable<{ playerId: number }>) {
+    const state = { player: { x: 1, y: 10 }, pipes: [] };
+    const activity = runGame(width, height, state, inputEvents);
 
     return {
         state,
@@ -16,45 +15,56 @@ export function init(width: number, height: number, inputEvents) {
     };
 }
 
-const directionBtns = ['DU', 'DR', 'DD', 'DL'];
-
-function scanInput(playerEvents) {
-    return playerEvents.pipe(scan((acc, event: any) => {
-        const next = acc.concat();
-        if (directionBtns.includes(event.key)) {
-            const component = 1 << (directionBtns.indexOf(event.key));
-            const i = event.id - 1;
-            let newDirection = 0;
-            if (event.type === 'down') {
-                newDirection = acc[i] | component;
-            } else {
-                newDirection = acc[i] & (~component);
-            }
-            next[i] = newDirection;
-        }
-        return next;
-    }, [0, 0, 0, 0]));
-}
-
 async function runGame(width: number, height: number, state: State, input: Observable<{ playerId: number }>) {
-    const dead = false;
-    const subscription = input.subscribe(currentInput => {
-        if (state.playerY > 0) {
-            state.playerY -= 1;
-        }
-    });
+    const pipeGap = 4;
+    const pipeDistance = height / 2;
 
-    const startTime = new Date().getTime();
     await new Promise(resolve => {
-        if (dead) {
-            subscription.unsubscribe();
-            resolve();
-        }
+        const startTime = new Date().getTime();
+        let tickCount = 0;
+        const subscription = input.subscribe(currentInput => {
+            if (state.player.y > 0) {
+                state.player.y -= 1;
+            }
+        });
 
         const tick = () => {
-            if (state.playerY < height - 2) {
-                state.playerY += 1;
+            tickCount++;
+
+            if (state.player.y < height - 2) {
+                state.player.y += 1;
+            } else {
+                subscription.unsubscribe();
+                resolve();
+                return;
             }
+
+            state.pipes.forEach(pipe => {
+                pipe.x -= 1;
+
+                if (pipe.x < 0) {
+                    const midpoint = Math.round(Math.random() * (height - 1));
+                    pipe.x = width - 1;
+                    pipe.bottomY = midpoint - pipeGap / 2;
+                    pipe.topY = midpoint + pipeGap / 2;
+                }
+
+                if (state.player.x === pipe.x && (state.player.y < pipe.bottomY || state.player.y > pipe.topY)) {
+                    subscription.unsubscribe();
+                    resolve();
+                    return;
+                }
+            });
+
+            if (tickCount % pipeDistance === 0 && state.pipes.length < Math.floor(width / pipeDistance)) {
+                const midpoint = Math.round(Math.random() * (height - 1));
+                state.pipes.push({
+                    x: width - 1,
+                    bottomY: midpoint - pipeGap / 2,
+                    topY: midpoint + pipeGap / 2,
+                });
+            }
+
             setTimeout(tick, getTickRate(startTime));
         };
 
