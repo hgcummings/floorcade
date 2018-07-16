@@ -4,3 +4,5 @@ node_modules
 
 // IDEA IDE configuration
 .idea/*
+
+**/*.pyc
