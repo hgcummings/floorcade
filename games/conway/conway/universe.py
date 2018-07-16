@@ -83,8 +83,8 @@ class Patterns:
 
     def _build_universe(self, pattern):
         universe = self.empty()
-        y = self._dimensions.height / 2 - 2
-        x = self._dimensions.width / 2 - 2
+        y = self._dimensions.height / 2 - (len(pattern) / 2)
+        x = self._dimensions.width / 2 - (len(pattern[0]) / 2)
         for (j, row) in enumerate(pattern):
             for (i, cell) in enumerate(row):
                 universe[j + y][i + x] = (cell == 1)
