@@ -72,6 +72,16 @@ game.on('exit', process.exit);
 const start = () => {
     console.clear();
     cursor.hide();
+    cursor.bg.rgb(0, 0, 0);
+    for (let y = 0; y < height * vScale; ++y) {
+        for (let x = 0; x < width * hScale; ++x) {
+            cursor.goto(x + 1, y + 1);
+            cursor.write(' ');
+        }
+    }
+    cursor.reset();
+    cursor.goto(0, rows + 1);
+
     started = true;
     
     let player = 1;
@@ -116,8 +126,8 @@ const render = (frameBuffer) => {
             previousFrame[pixel + 1] = frameBuffer[pixel + 1];
             previousFrame[pixel + 2] = frameBuffer[pixel + 2];
             cursor.bg.rgb(frameBuffer[pixel], frameBuffer[pixel + 1], frameBuffer[pixel + 2]);
-            for (let i = x * hScale; i < (x + 1) * hScale; ++i) {
-                for (let j = y * vScale; j < (y + 1) * vScale; ++j) {
+            for (let j = y * vScale; j < (y + 1) * vScale; ++j) {
+                for (let i = x * hScale; i < (x + 1) * hScale; ++i) {
                     cursor.goto(i + 1, j + 1);
                     cursor.write(' ');
                 }
