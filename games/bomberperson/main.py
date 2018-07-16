@@ -70,13 +70,16 @@ while True:
     line = sys.stdin.readline()
     if line.strip() == 'SKILL':
         exit()
-    elif line.strip() == 'STICK' and time.time() - last_tick > 0.1:
-        for player in players:
-            player.tick(playfield)
-            
+    elif line.strip() == 'STICK':
+        tick = time.time() - last_tick > 0.1
+        if tick:
+            for player in players:
+                player.tick(playfield)
+
         for j in range(dimensions.height):
             for i in range(dimensions.width):
-                playfield[j/SCALE][i/SCALE].tick(playfield)
+                if tick:
+                    playfield[j/SCALE][i/SCALE].tick(playfield)
                 sys.stdout.write(playfield[j/SCALE][i/SCALE].draw())
         sys.stdout.flush()
         last_tick = time.time()
