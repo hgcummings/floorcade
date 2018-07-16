@@ -18,14 +18,29 @@ module.exports = (playerCount, writeStream) => {
         activePlayers.pop().device.removeAllListeners('data');
     }
     
-    const on = (player, button) => writeStream.write(`P${player}${button}1\n`);
-    const off = (player, button) => writeStream.write(`P${player}${button}0\n`);
-    
     gamepads.forEach((gamepad, index) => {
         let player = {
             number: (index % playerCount) + 1,
             device: new HID.HID(gamepad.path)
         }
+
+        const states = {};
+        const on = (button) => {
+            states[button] = 'PRESSED';
+            setTimeout(() => {
+                if (states[button] === 'PRESSED') {
+                    states[button] = 'ON';
+                    writeStream.write(`P${player.number}${button}1\n`);
+                }
+            }, 10);
+        }
+        const off = (button) => {
+            if (states[button] === 'ON') {
+                writeStream.write(`P${player.number}${button}0\n`);
+            }
+            states[button] = 'OFF';
+        }
+
         activePlayers.push(player);
     
         let prevAxes = [128, 128];
@@ -36,14 +51,14 @@ module.exports = (playerCount, writeStream) => {
             for (let i = 0; i < axes.length; ++i) {
                 if (currAxes[i] !== prevAxes[i]) {
                     if (currAxes[i] < 64) {
-                        on(player.number, axes[i][0]);
+                        on(axes[i][0]);
                     } else if (currAxes[i] > 192) {
-                        on(player.number, axes[i][1]);
+                        on(axes[i][1]);
                     }
                     if (prevAxes[i] < 64) {
-                        off(player.number, axes[i][0]);
+                        off(axes[i][0]);
                     } else if (prevAxes[i] > 192) {
-                        off(player.number, axes[i][1]);
+                        off(axes[i][1]);
                     }
                 }
             }
@@ -55,9 +70,9 @@ module.exports = (playerCount, writeStream) => {
             if (currBtns !== prevBtns) {
                 for (let i = 0, btn = 1; i < btns.length; btn <<= 1, ++i) {
                     if ((btn & currBtns) && !(btn & prevBtns)) {
-                        on(player.number, btns[i]);
+                        on(btns[i]);
                     } else if ((btn & prevBtns) && !(btn & currBtns)) {
-                        off(player.number, btns[i]);
+                        off(btns[i]);
                     }
                 }
             }
