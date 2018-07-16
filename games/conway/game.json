@@ -1,0 +1,8 @@
+{
+    "title": "Conway",
+    "command": "python -m conway",
+    "players": {
+        "min": 1,
+        "max": 1
+    }
+}
