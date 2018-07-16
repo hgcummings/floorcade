@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "Flappy Bird game for Floorcade",
   "scripts": {
-    "prestart": "tsc",
+    "compile": "tsc",
+    "postinstall": "npm run compile",
+    "prestart": "npm run compile",
     "start": "node bin/controller.js"
   },
   "author": "broder",
