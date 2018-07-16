@@ -29,6 +29,10 @@ while True:
             y += velocity_y
             velocity_y += acceleration_y
             playfield[y][x] = True
+
+            if x == dimensions.width / 2 and y == dimensions.height / 2:
+                velocity_y = 0
+
             last_tick = time.time()
         for row in playfield:
             for cell in row:
