@@ -10,3 +10,12 @@ class Runner:
 
     def in_default_position(self, dimensions):
         return self.coords.y == dimensions.height / 2
+
+    def jump(self):
+        self.velocity.y = -3
+
+    def move(self):
+        self.coords.y += self.velocity.y
+
+    def accelerate(self, acceleration_y):
+        self.velocity.y += acceleration_y
