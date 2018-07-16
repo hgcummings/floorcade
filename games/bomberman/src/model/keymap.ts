@@ -10,9 +10,9 @@ export interface DynamiteAction {
 
 export const ACTIONS = {
     "MOVE_UP": { type: "move", dx: 0, dy: 1 } as MoveAction,
-    "MOVE_DOWN": { type: "move", dx: 0, dy: 1 } as MoveAction,
-    "MOVE_LEFT": { type: "move", dx: 1, dy: 1 } as MoveAction,
-    "MOVE_RIGHT": { type: "move", dx: -1, dy: 1 } as MoveAction,
+    "MOVE_DOWN": { type: "move", dx: 0, dy: -1 } as MoveAction,
+    "MOVE_LEFT": { type: "move", dx: 1, dy: 0 } as MoveAction,
+    "MOVE_RIGHT": { type: "move", dx: -1, dy: 0 } as MoveAction,
     "DYNAMITE": { type: "dynamite" } as DynamiteAction
 }
 
