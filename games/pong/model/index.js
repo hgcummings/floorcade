@@ -44,7 +44,7 @@ async function runGame({ width, height }, state, input) {
         if (e.key === 'DL' && e.type === 'down') {
             movement[0]--;
         }
-        state.bats.filter(b => b.id === e.id).forEach(b => b.move(...movement));
+        state.bats.filter(b => b.id === e.id).forEach(b => b.changeVelocity(...movement));
 
         if (e.type === 'down') {
             state.balls.forEach(b => b.move(state.bats, state.walls, {width, height}));
@@ -83,9 +83,12 @@ async function runGame({ width, height }, state, input) {
     }
 
     const tick = () => {
+        state.bats.forEach(b => b.move({width, height}));
         state.balls.forEach(b => b.move(state.bats, state.walls, {width, height}));
         loseLives();
         killPlayers();
+
+        // Remove OOB balls
         state.balls = state.balls.filter(b => b.x >= 0 && b.x <= width && b.y >= 0 && b.y <= width);
         setTimeout(tick, getTickRate(startTime));
 
