@@ -51,6 +51,8 @@ class Game:
             self.universe.overwrite_with_pattern('horizontal_line')
         elif button == 'LS1':
             self.universe.overwrite_with_pattern('empty')
+        elif button == 'SR1':
+            exit(0)
 
     def tick(self):
         if time.time() - self.last_tick > self.updates_per_second:

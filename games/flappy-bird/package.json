@@ -1,0 +1,19 @@
+{
+  "name": "floorcade-games-flappy-bird",
+  "version": "0.0.1",
+  "description": "Flappy Bird game for Floorcade",
+  "scripts": {
+    "prestart": "tsc",
+    "start": "node bin/controller.js"
+  },
+  "author": "broder",
+  "license": "MIT",
+  "dependencies": {
+    "@types/argparse": "^1.0.34",
+    "@types/node": "^10.5.2",
+    "argparse": "^1.0.10",
+    "js-pixel-fonts": "1.5.0",
+    "rxjs": "^6.2.2",
+    "typescript": "^2.9.2"
+  }
+}

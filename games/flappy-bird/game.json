@@ -1,0 +1,8 @@
+{
+    "title": "Flappy Bird",
+    "command": "npm start --",
+    "players": {
+        "min": 1,
+        "max": 1
+    }
+}
