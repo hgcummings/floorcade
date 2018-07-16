@@ -15,10 +15,10 @@ async function run() {
                 child.on('exit', (code) => {
                     if (code === 0) {
                         console.log('Install script completed successfully');
-                        resolve();
                     } else {
-                        reject(`Child process returned code ${code}`);
+                        console.error(`WARNING: Install script exited with code ${code}. ${game.title} will not be playable.`);
                     }
+                    resolve();
                 })
             });
         }
