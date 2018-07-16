@@ -51,7 +51,6 @@ module.exports.init = ({width, height}, input) => {
         });
 
         state.bullets.forEach(b => {
-            // log(b);
             b.updatePosition();
             if(b.x < 0){
                 var index = state.bullets.indexOf(b);
