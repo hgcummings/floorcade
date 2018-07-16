@@ -56,7 +56,7 @@ async function runGame({ width, height }, state, input) {
     }
 
     function loseLives() {
-        state.balls.filter(b => b.x >= 0 && b.x <= width && b.y >= 0 && b.y <= width).forEach(b => {
+        state.balls.forEach(b => {
             const playersToLoseLife = [];
             if (b.x < 0) {
                 playersToLoseLife.push(playerNumber(1));
@@ -67,7 +67,7 @@ async function runGame({ width, height }, state, input) {
             if (b.y < 0) {
                 playersToLoseLife.push(playerNumber(2));
             }
-            if (b.x > height) {
+            if (b.y > height) {
                 playersToLoseLife.push(playerNumber(4));
             }
             playersToLoseLife.filter(x => x).forEach(p => p.loseLife());
