@@ -8,7 +8,7 @@ parser.add_argument('--height', type=int)
 
 dimensions = parser.parse_args()
 
-playfield = [[False for i in range(dimensions.width)] for j in range(dimensions.height)]
+playfield = [[False if (j != dimensions.height/2+1) else True for i in range(dimensions.width)] for j in range(dimensions.height)]
 x, y = dimensions.width / 2, dimensions.height / 2
 velocity_x, velocity_y = 0, 0
 acceleration_x, acceleration_y = 0, 1
@@ -25,7 +25,8 @@ while True:
         exit()
     elif line.strip() == 'STICK':
         if time.time() - last_tick > 0.1:
-            playfield = [[False for i in range(dimensions.width)] for j in range(dimensions.height)]
+            playfield = [[False if (j != dimensions.height / 2 + 1) else True for i in range(dimensions.width)] for j in
+                         range(dimensions.height)]
             y += velocity_y
             velocity_y += acceleration_y
             playfield[y][x] = True
