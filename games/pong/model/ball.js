@@ -16,15 +16,27 @@ module.exports = class Ball {
     move(bats, walls, {width, height}) {
         const collidingBats = bats.filter(b => this.collidesWithBat(b));
 
-        // BAT collision
+        const bounceVelocity = (x) => x * -1 * (1 + (Math.random() * 0.1));
+
+        const makeMultiball = () => {
+            this.makeBall({
+                x: Math.floor(this.x),
+                y: Math.floor(this.y),
+                dx: bounceVelocity(this.dx),
+                dy: bounceVelocity(this.dy),
+                makeBall: this.makeBall
+            });
+        };
+
+// BAT collision
         if (collidingBats.some(b => b)) {
             if (collidingBats.some(b => b.orientation === orientations.horizontal)) {
-                this.makeBall({ x: this.x, y: this.y, dx: this.dx * -1, dy: this.dy * -1, makeBall: this.makeBall });
-                this.dy *= -1 * (Math.random());
+                makeMultiball();
+                this.dy = bounceVelocity(this.dy);
             }
             if (collidingBats.some(b => b.orientation === orientations.vertical)) {
-                this.makeBall({ x: this.x, y: this.y, dx: this.dx * -1, dy: this.dy * -1, makeBall: this.makeBall });
-                this.dx *= -1 * (Math.random());
+                makeMultiball();
+                this.dx = bounceVelocity(this.dx);
             }
         }
 
