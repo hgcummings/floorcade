@@ -73,12 +73,16 @@ while True:
     elif line.strip() == 'STICK' and time.time() - last_tick > 0.1:
         for player in players:
             player.tick(playfield)
+            
         for j in range(dimensions.height):
             for i in range(dimensions.width):
+                playfield[j/SCALE][i/SCALE].tick(playfield)
                 sys.stdout.write(playfield[j/SCALE][i/SCALE].draw())
         sys.stdout.flush()
         last_tick = time.time()
     elif line[0] == 'P' and line[2] == 'D' and line[4] == '1':
         players[int(line[1])-1].intent = line[3]
-    elif line[0] == 'P' and line[4] == '0' and players[int(line[1])-1].intent == line[3]:
+    elif line[0] == 'P' and line[2] == 'D' and line[4] == '0' and players[int(line[1])-1].intent == line[3]:
         players[int(line[1])-1].intent = None
+    elif line[0] == 'P' and line[2] == 'F' and line[4] == '1':
+        players[int(line[1])-1].intent = 'B'
