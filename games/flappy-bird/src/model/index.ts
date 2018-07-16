@@ -1,10 +1,14 @@
 import { Observable } from 'rxjs';
 import { scan } from 'rxjs/operators';
 
+export interface State {
+    playerY: number;
+}
+
 export function init(width: number, height: number, inputEvents) {
     const input = scanInput(inputEvents);
-    const state = { };
-    const activity = runGame(width, height, input);
+    const state = { playerY: 10 };
+    const activity = runGame(width, height, state, input);
 
     return {
         state,
@@ -32,13 +36,25 @@ function scanInput(playerEvents) {
     }, [0, 0, 0, 0]));
 }
 
-async function runGame(width: number, height: number, input: Observable<{ id: number; key: any; type: string; }>) {
-    input.subscribe(console.log);
+async function runGame(width: number, height: number, state: State, input: Observable<{ playerId: number }>) {
+    const dead = false;
+    const subscription = input.subscribe(currentInput => {
+        if (state.playerY > 0) {
+            state.playerY -= 1;
+        }
+    });
 
     const startTime = new Date().getTime();
     await new Promise(resolve => {
-        const tick = () => {
+        if (dead) {
+            subscription.unsubscribe();
+            resolve();
+        }
 
+        const tick = () => {
+            if (state.playerY < height - 2) {
+                state.playerY += 1;
+            }
             setTimeout(tick, getTickRate(startTime));
         };
 

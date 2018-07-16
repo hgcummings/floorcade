@@ -18,11 +18,7 @@ const input = readline.createInterface(process.stdin);
 
 const playerEvents = fromEvent<any>(input, 'line')
     .pipe(filter(event => event[0] === 'P'))
-    .pipe(map(event => ({
-        id: parseInt(event[1], 10),
-        key: event.substr(2, 2),
-        type: event[4] === '1' ? 'down' : 'up'
-    })));
+    .pipe(map(event => ({ playerId: parseInt(event[1], 10) })));
 
 const model = modelFactory(width, height, playerEvents);
 const view = viewFactory(width, height);
