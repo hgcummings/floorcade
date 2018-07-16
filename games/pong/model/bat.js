@@ -1,17 +1,18 @@
 const orientations = require('./orientations.js');
 
 module.exports = class Bat {
-    constructor({ id, x, y, orientation = orientations.vertical }) {
+    constructor({ id, x, y, orientation = orientations.vertical, wall }) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.dx = 0;
         this.dy = 0;
         this.maxSpeed = 3;
-        this.height = orientation === orientations.horizontal ? 1 : 5;
-        this.width = orientation === orientations.vertical ? 1 : 10;
+        this.height = orientation === orientations.horizontal ? 2 : 5;
+        this.width = orientation === orientations.vertical ? 2 : 10;
         this.orientation = orientation;
-        this.lives = 3;
+        this.lives = 6;
+        this.wall = wall;
     }
 
     isAlive() {
@@ -41,20 +42,16 @@ module.exports = class Bat {
 
         if (this.x < 0){
             this.x = 0;
-            this.dx = 0;
         }
         if (this.x > width - this.width)
         {
             this.x = width - this.width;
-            this.dx = 0;
         }
         if (this.y < 0){
             this.y = 0;
-            this.dy = 0;
         }
         if (this.y > height - this.height){
             this.y = height - this.height;
-            this.dy = 0;
         }
     }
 
