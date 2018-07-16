@@ -8,10 +8,15 @@ module.exports = class Bat {
       this.height = orientation === orientations.horizontal ? 1 : 5;
       this.width = orientation === orientations.vertical ? 1 : 10;
       this.orientation = orientation;
+      this.lives = 3;
   }
 
   isAlive(){
-    return this.x > 0 && this.y > 0
+    return this.lives > 0;
+  }
+
+  loseLife() {
+    this.lives--;
   }
 
   move(dx, dy){
@@ -37,4 +42,4 @@ module.exports = class Bat {
     }
     return pix;
   }
-}
+};

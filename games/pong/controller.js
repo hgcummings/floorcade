@@ -37,9 +37,9 @@ input.on('line', event => {
 
 process.stdout.write('READY\n');
 
-model.activity
-  .then(() => process.exit(0))
-  .catch(err => {
-    console.error(err);
-    process.exit(1);
-  });
+// model.activity
+//   .then(() => process.exit(0))
+//   .catch(err => {
+//     console.error(err);
+//     process.exit(1);
+//   });
