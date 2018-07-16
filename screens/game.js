@@ -52,8 +52,10 @@ module.exports.init = (gameConfig) => {
             }
         }
         if (started) {
+            console.log('Getting frame from game');
             game.stdin.write('STICK\n');
         } else {
+            console.log('Writing loading screen');
             stream.write(loadingPixels);
         }
     }
