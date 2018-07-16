@@ -16,27 +16,38 @@ module.exports = class Ball {
     move(bats, walls, {width, height}) {
         const collidingBats = bats.filter(b => this.collidesWithBat(b));
 
-        const bounceVelocity = (x) => x * -1 * (1 + (Math.random() * 0.1));
-
         const makeMultiball = () => {
             this.makeBall({
                 x: Math.floor(this.x),
                 y: Math.floor(this.y),
-                dx: bounceVelocity(this.dx),
-                dy: bounceVelocity(this.dy),
+                dx: (this.dx * -1),
+                dy: (this.dy * -1),
                 makeBall: this.makeBall
             });
+        };
+
+        // i.e. bottom/top bats
+        const bounceVertical = () => {
+            const velChange = Math.random() * 0.5;
+            this.dx = this.dx - velChange;
+            this.dy = -1 *(this.dy + velChange);
+        };
+        // i.e. right/left bats
+        const bounceHorizontal = () => {
+            const velChange = Math.random() * 0.5;
+            this.dx = -1 * (this.dx + velChange);
+            this.dy = this.dy - velChange;
         };
 
 // BAT collision
         if (collidingBats.some(b => b)) {
             if (collidingBats.some(b => b.orientation === orientations.horizontal)) {
                 makeMultiball();
-                this.dy = bounceVelocity(this.dy);
+                bounceVertical();
             }
             if (collidingBats.some(b => b.orientation === orientations.vertical)) {
                 makeMultiball();
-                this.dx = bounceVelocity(this.dx);
+                bounceHorizontal();
             }
         }
 
@@ -44,16 +55,16 @@ module.exports = class Ball {
         let nextX = this.x + this.dx;
         let nextY = this.y + this.dy;
         if (nextX < 0 && walls.find(w => w.name === 'LEFT')) {
-            this.dx *= -1;
+            bounceHorizontal();
         }
         if (nextX > width && walls.find(w => w.name === 'RIGHT')) {
-            this.dx *= -1;
+            bounceHorizontal();
         }
         if (nextY < 0 && walls.find(w => w.name === 'TOP')) {
-            this.dy *= -1;
+            bounceVertical();
         }
         if (nextY > height && walls.find(w => w.name === 'BOTTOM')) {
-            this.dy *= -1;
+            bounceVertical();
         }
         this.x += this.dx;
         this.y += this.dy;

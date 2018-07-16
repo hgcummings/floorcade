@@ -6,7 +6,13 @@ function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
 }
 function getRandomDirection() {
-    return Math.random() > 0.5 ?  -1 : 1;
+    const rand = Math.random();
+    if (rand < 0.33) {
+        return 1;
+    } if (rand < 0.66) {
+        return -1
+    }
+    return 0;
 }
 
 module.exports = {
@@ -16,6 +22,11 @@ module.exports = {
     },
     newRandomBall: ({ makeBall, minX, maxX, minY, maxY }) => {
         nextBallId++;
-        return new Ball({ id: nextBallId, x: getRandomArbitrary(minX, maxX), y: getRandomArbitrary(minY, maxY), dx: getRandomDirection(), dy: getRandomDirection(), makeBall})
+        var dx = getRandomDirection();
+        const dy = getRandomDirection();
+        if (dx === 0 && dy === 0){
+            dx = 1;
+        }
+        return new Ball({ id: nextBallId, x: getRandomArbitrary(minX, maxX), y: getRandomArbitrary(minY, maxY), dx, dy, makeBall})
     }
 };
