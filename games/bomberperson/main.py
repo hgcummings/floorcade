@@ -82,7 +82,9 @@ while True:
                     playfield[j/SCALE][i/SCALE].tick(playfield)
                 sys.stdout.write(playfield[j/SCALE][i/SCALE].draw())
         sys.stdout.flush()
-        last_tick = time.time()
+
+        if tick:
+            last_tick = time.time()
     elif line[0] == 'P' and line[2] == 'D' and line[4] == '1':
         players[int(line[1])-1].intent = line[3]
     elif line[0] == 'P' and line[2] == 'D' and line[4] == '0' and players[int(line[1])-1].intent == line[3]:
