@@ -14,7 +14,7 @@ module.exports.init = (gameConfig) => {
             const [command, ...args] = gameConfig.command.split(' ');
             args.push(...['--width',width,'--height',height]);
 
-            console.log(`Launching game ${game.title}`);
+            console.log(`Launching game ${gameConfig.title}`);
             game = spawn(
                 command,
                 args,
