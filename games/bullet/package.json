@@ -1,0 +1,16 @@
+{
+  "name": "floorcade-games-bullet",
+  "version": "0.0.1",
+  "description": "Welcome to Hell",
+  "main": "controller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael and Nathan",
+  "license": "MIT",
+  "dependencies": {
+    "argparse": "^1.0.10",
+    "js-pixel-fonts": "1.5.0",
+    "rxjs": "^6.2.1"
+  }
+}

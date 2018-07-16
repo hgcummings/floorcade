@@ -17,8 +17,8 @@ async function runGame({ width, height }, state, input) {
     };
 
     const randomBall = () => ballFactory.newRandomBall({
-        minX: Math.floor(width / 2) - 5,
-        maxX: Math.floor(width / 2) + 5,
+        minX: Math.floor(width / 2) - 30,
+        maxX: Math.floor(width / 2) + 30,
         minY: Math.floor(height / 2) - 5,
         maxY: Math.floor(height / 2) + 5,
         makeBall: ({ x, y, dx, dy, makeBall }) => {

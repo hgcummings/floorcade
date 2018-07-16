@@ -9,7 +9,7 @@ module.exports = class Bat {
         this.dy = 0;
         this.maxSpeed = 3;
         this.height = orientation === orientations.horizontal ? 2 : 5;
-        this.width = orientation === orientations.vertical ? 2 : 10;
+        this.width = orientation === orientations.vertical ? 2 : 14;
         this.orientation = orientation;
         this.lives = 6;
         this.wall = wall;
