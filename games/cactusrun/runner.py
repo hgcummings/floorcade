@@ -9,5 +9,4 @@ class Runner:
         self.size = Point(3, 4)
 
     def in_default_position(self, dimensions):
-        return self.coords.x == dimensions.width / 2 and \
-               self.coords.y == dimensions.height / 2
+        return self.coords.y == dimensions.height / 2
