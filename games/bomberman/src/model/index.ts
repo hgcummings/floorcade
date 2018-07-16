@@ -1,4 +1,4 @@
-const scanInput = require('./input');
+import { mapInputEventsToActions } from './input';
 const roundFactory = require('./round');
 
 async function runGame({width, height}, state, input) {
@@ -7,8 +7,7 @@ async function runGame({width, height}, state, input) {
 } 
 
 export const init = ({width, height}, inputEvents) => {
-    // const input = scanInput(inputEvents);
-    const input = inputEvents;
+    const input = mapInputEventsToActions(inputEvents);
     const state = {};
     const activity = runGame({width, height}, state, input);
 

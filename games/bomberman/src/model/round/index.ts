@@ -1,5 +1,7 @@
-const arena = require('./arena');
 import { init as playersInit, Player } from './players';
+import { ActionEvent } from '../input';
+import { Observable } from 'rxjs';
+import arena = require('./arena');
 
 interface State {
     arena: number[][];
@@ -8,7 +10,7 @@ interface State {
     explosions: any[];
 }
 
-export const init = ({width, height}, input) => {
+export const init = ({width, height}, input: Observable<ActionEvent>) => {
     const state: State = {
         arena: arena.init({width, height}),
         players: playersInit({width, height}),
