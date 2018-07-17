@@ -2,10 +2,10 @@ import math
 import sys
 import time
 
-from cactus import Cactus
+from units.cactus import Cactus
 from playfield import Playfield
 from point import Point
-from runner import Runner
+from units.runner import Runner
 
 playfield = Playfield()
 playfield.init()
