@@ -47,17 +47,58 @@ def validate_initial_coordinates(x, y):
 def remove_player(player_id):
     del players[player_id]
     for rowIndex, row in enumerate(playfield):
-        for colIndex, cell in enumerate(playfield[rowIndex]):
+        for colIndex, cell in enumerate(row):
             if isinstance(cell, Trail):
                 if cell.player == player_id:
                     playfield[rowIndex][colIndex] = cell.replaced_cell
+
+def check_own_connected(coord1, coord2):
+    x1, y1 = coord1
+    x2, y2 = coord2
+    if not isinstance(playfield[y1][x1], Owned) or not isinstance(playfield[y2][x2], Owned):
+        return False
+    if playfield[y1][x1].player != playfield[y2][x2].player:
+        return False
+    player_id = playfield[y1][x1].player
+    explore_directions = [(-1, 0), (0, -1), (1, 0), (0, 1)]
+    visited = []
+    queue = [coord1]
+    while len(queue) > 0:
+        x, y = queue.pop(0)
+        visited.append((x, y))
+        if x == x2 and y == y2:
+            return True
+        for dx, dy in explore_directions:
+            if check_valid_coordinates(x + dx, y + dy):
+                if isinstance(playfield[y + dy][x + dx], Owned):
+                    if playfield[y + dy][x + dx].player == player_id:
+                        if (x + dx, y + dy) not in visited:
+                            queue.append((x + dx, y + dy))
+    return False
+
+def trail_completed(player_id):
+    trail_start = players[player_id].get_trail_start()
+    players[player_id].clear_trail_start()
+
+    trail_end = players[player_id].x, players[player_id].y
+
+    # Fill the trail
+    for row in playfield:
+        for colIndex, cell in enumerate(row):
+            if isinstance(cell, Trail):
+                if cell.player == player_id:
+                    row[colIndex] = Owned(player_id)
+
+    if check_own_connected(trail_start, trail_end):
+        # TODO: fill the area
+        pass
 
 
 x, y = dimensions.width / 2, dimensions.height / 2
 init_player(x, y, 1, (1, 0))
 init_player(x - 10, y - 5, 2, (1, 0))
 
-set_owned_by_player(10, 10, 2)
+set_owned_by_player(10, 10, 1)
 
 sys.stdout.write('READY\n')
 sys.stdout.flush()
@@ -77,10 +118,14 @@ while True:
                 remove_player(cell.player)
             else:
                 if isinstance(cell, Owned):
-                    if cell.player != player_id:
+                    if cell.player == player_id and player.trail_start_set:
+                        trail_completed(player_id)
+                    else:
                         playfield[y][x] = Trail(player_id, playfield[y][x])
+                        players[player_id].set_trail_start(x - player.dx, y - player.dy)
                 else:
                     playfield[y][x] = Trail(player_id, playfield[y][x])
+                    players[player_id].set_trail_start(x, y)
 
                 player.update()
                 if not check_valid_coordinates(player.x, player.y):
