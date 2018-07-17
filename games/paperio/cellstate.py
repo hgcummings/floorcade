@@ -7,7 +7,7 @@ class CellState:
 
 class Empty(CellState):
     def getColour(self):
-        return "\x00\x00\x00"
+        return empty_colour
 
 
 class Trail(CellState):

@@ -40,9 +40,19 @@ def validate_initial_coordinates(x, y):
     if x == 0 or x == len(playfield[0]) or y == 0 or y == len(playfield):
         raise AttributeError("Illegal parameters")
 
+def remove_player(player_id):
+    del players[player_id]
+    for rowIndex, row in enumerate(playfield):
+        for colIndex, cell in enumerate(playfield[rowIndex]):
+            if isinstance(cell, Trail):
+                if cell.player == player_id:
+                    playfield[rowIndex][colIndex] = cell.replaced_cell
+
 
 x, y = dimensions.width / 2, dimensions.height / 2
 init_player(x, y, 1, (1, 0))
+
+set_owned_by_player(10, 10, 2)
 
 sys.stdout.write('READY\n')
 sys.stdout.flush()
@@ -53,43 +63,42 @@ while True:
     if line.strip() == 'SKILL':
         exit()
     elif line.strip() == 'STICK':
+        for player_id in players.keys():
+            player = players[player_id]
+            x, y = player.x, player.y
 
-        # if (time.time() - last_tick > 0.1):
-        #     x += dx
-        #     y += dy
-        #     if playfield[y][x]:
-        #         exit()
-        #     else:
-        #         playfield[y][x] = True
-        #         last_tick = time.time()
+            cell = playfield[y][x]
+            if isinstance(cell, Trail):
+                remove_player(cell.player)
+            else:
+                if isinstance(cell, Owned):
+                    if cell.player != player_id:
+                        playfield[y][x] = Trail(player_id, playfield[y][x])
+                else:
+                    playfield[y][x] = Trail(player_id, playfield[y][x])
 
-        x, y = players[1].x, players[1].y
-
-        cell = playfield[y][x]
-
-        if isinstance(cell, Owned):
-            if cell.player != 1:
-                playfield[y][x] = Trail(1, playfield[y][x])
-        else:
-            playfield[y][x] = Trail(1, playfield[y][x])
-
-        players[1].update()
+                player.update()
 
         for rowIndex in range(0, len(playfield)):
             row = playfield[rowIndex]
             for colIndex in range(0, len(row)):
+                no_players = True
                 for playerID, player in players.iteritems():
                     if player.x == colIndex and player.y == rowIndex:
-                        sys.stdout.write(player_colours[1])
-                    else:
-                        sys.stdout.write(row[colIndex].getColour())
+                            sys.stdout.write(player_colours[player_id])
+                            no_players = False
+                if no_players:
+                    sys.stdout.write(row[colIndex].getColour())
+                
         sys.stdout.flush()
     elif line[0] == 'P':
-        if line[2:5] == 'DU1':
-            dx, dy = 0, -1
-        elif line[2:5] == 'DD1':
-            dx, dy = 0, 1
-        elif line[2:5] == 'DR1':
-            dx, dy = 1, 0
-        elif line[2:5] == 'DL1':
-            dx, dy = -1, 0
+        playerNum = int(line[1])
+        if playerNum in players.keys():
+            if line[2:5] == 'DU1':
+                players[playerNum].setDirection(0, -1)
+            elif line[2:5] == 'DD1':
+                players[playerNum].setDirection(0, 1)
+            elif line[2:5] == 'DR1':
+                players[playerNum].setDirection(1, 0)
+            elif line[2:5] == 'DL1':
+                players[playerNum].setDirection(-1, 0)
