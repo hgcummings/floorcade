@@ -35,9 +35,13 @@ def initialize_player_owned_area(player, x, y):
 def set_owned_by_player(i, j, player):
     playfield[i][j] = Owned(player)
 
+def check_valid_coordinates(x, y):
+    if x < 0 or x >= len(playfield[0]) or y <= 0 or y >= len(playfield):
+        return False
+    return True
 
 def validate_initial_coordinates(x, y):
-    if x == 0 or x == len(playfield[0]) or y == 0 or y == len(playfield):
+    if not check_valid_coordinates(x, y) or x == 0 or x == len(playfield[0]) or y == 0 or y == len(playfield):
         raise AttributeError("Illegal parameters")
 
 def remove_player(player_id):
@@ -51,6 +55,7 @@ def remove_player(player_id):
 
 x, y = dimensions.width / 2, dimensions.height / 2
 init_player(x, y, 1, (1, 0))
+init_player(x - 10, y - 5, 2, (1, 0))
 
 set_owned_by_player(10, 10, 2)
 
@@ -78,6 +83,8 @@ while True:
                     playfield[y][x] = Trail(player_id, playfield[y][x])
 
                 player.update()
+                if not check_valid_coordinates(player.x, player.y):
+                    remove_player(player_id)
 
         for rowIndex in range(0, len(playfield)):
             row = playfield[rowIndex]
