@@ -147,10 +147,10 @@ while True:
         playerNum = int(line[1])
         if playerNum in players.keys():
             if line[2:5] == 'DU1':
-                players[playerNum].setDirection(0, -1)
+                players[playerNum].set_direction(0, -1)
             elif line[2:5] == 'DD1':
-                players[playerNum].setDirection(0, 1)
+                players[playerNum].set_direction(0, 1)
             elif line[2:5] == 'DR1':
-                players[playerNum].setDirection(1, 0)
+                players[playerNum].set_direction(1, 0)
             elif line[2:5] == 'DL1':
-                players[playerNum].setDirection(-1, 0)
+                players[playerNum].set_direction(-1, 0)

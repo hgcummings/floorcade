@@ -9,7 +9,7 @@ class Player:
         self.x += self.dx
         self.y += self.dy
 
-    def setDirection(self, dx, dy):
+    def set_direction(self, dx, dy):
     	self.dx = dx
     	self.dy = dy
 
