@@ -1,22 +1,17 @@
-import argparse
 import math
 import sys
 import time
 
 from cactus import Cactus
 from playfield import Playfield
-from runner import Runner
 from point import Point
+from runner import Runner
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--width', type=int)
-parser.add_argument('--height', type=int)
+playfield = Playfield()
+playfield.init()
 
-dimensions = parser.parse_args()
-
-playfield = Playfield(dimensions)
-runner = Runner(Point(10, dimensions.height / 2))
-cactus = Cactus(Point(dimensions.width - 1, dimensions.height / 2))
+runner = Runner(Point(10, playfield.dimensions.height / 2))
+cactus = Cactus(Point(playfield.dimensions.width - 1, playfield.dimensions.height / 2))
 
 acceleration_x, acceleration_y = 0, 1
 
@@ -31,7 +26,8 @@ while True:
     elif line.strip() == 'STICK':
         if time.time() - last_tick > 0.1:
 
-            if math.fabs(runner.coords.x - cactus.coords.x) < cactus.size.x and math.fabs(runner.coords.y - cactus.coords.y) < cactus.size.y:
+            if math.fabs(runner.coords.x - cactus.coords.x) < cactus.size.x and math.fabs(
+                    runner.coords.y - cactus.coords.y) < cactus.size.y:
                 continue
 
             runner.move()
@@ -50,6 +46,6 @@ while True:
                 sys.stdout.write('\xff\xff\xff' if cell else '\x00\x00\x00')
         sys.stdout.flush()
     elif line[0] == 'P':
-        if line[2:5] == 'FB1':
-            if runner.in_default_position(dimensions):
+        if line[4:5] == '1':
+            if runner.in_default_position(playfield.dimensions):
                 runner.jump()

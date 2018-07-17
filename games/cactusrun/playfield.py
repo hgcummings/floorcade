@@ -1,8 +1,17 @@
+import argparse
+
+
 class Playfield:
 
-    def __init__(self, dimensions):
-        self.dimensions = dimensions
+    def __init__(self):
+        self.dimensions = None
         self.map = []
+
+    def init(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument('--width', type=int)
+        parser.add_argument('--height', type=int)
+        self.dimensions = parser.parse_args()
         self.reset()
 
     def reset(self):
