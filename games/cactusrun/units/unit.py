@@ -1,3 +1,4 @@
+from util.pixel import Pixel
 from util.point import Point
 
 
@@ -22,3 +23,12 @@ class Unit:
     def accelerate(self, acceleration, elapsed_time):
         self.velocity.x += acceleration.x * elapsed_time
         self.velocity.y += acceleration.y * elapsed_time
+
+    def get_pixels(self):
+        pixels = []
+        for row in range(0, self.size.y):
+            pixel_row = []
+            for column in range(0, self.size.x):
+                pixel_row.append(Pixel.white())
+            pixels.append(pixel_row)
+        return pixels

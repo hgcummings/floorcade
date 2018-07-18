@@ -33,6 +33,6 @@ class Controller:
     @staticmethod
     def print_pixel_map(pixel_map):
         for row in pixel_map:
-            for cell in row:
-                sys.stdout.write('\xff\xff\xff' if cell else '\x00\x00\x00')
+            for pixel in row:
+                sys.stdout.write(pixel.to_string())
         sys.stdout.flush()
