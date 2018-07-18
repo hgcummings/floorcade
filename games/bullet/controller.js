@@ -2,12 +2,12 @@
  * Responsible for handling the game protocol (input and output) as described in the README.
  * Nothing below is game-specific; all games will need to implement the functionality below.
  */
-import readline = require('readline');
-import modelFactory = require('./model');
-import viewFactory = require('./view');
-import rxjs = require('rxjs');
-import { filter, map }  from 'rxjs/operators';
-import { ArgumentParser } from 'argparse';
+const readline = require('readline');
+const modelFactory = require('./model');
+const viewFactory = require('./view');
+const rxjs = require('rxjs');
+const { filter, map } = require('rxjs/operators');
+const { ArgumentParser } = require('argparse');
 
 const parser = new ArgumentParser();
 parser.addArgument(['--width'], { type: 'int' });
@@ -18,7 +18,7 @@ const input = readline.createInterface(process.stdin);
 
 const playerEvents = rxjs.fromEvent(input, 'line')
     .pipe(filter(event => event[0] === 'P'))
-    .pipe(map<string, any>(event => ({
+    .pipe(map(event => ({
             id: parseInt(event[1], 10),
             key: event.substr(2, 2),
             type: event[4] === '1' ? 'down' : 'up'
@@ -29,17 +29,17 @@ const view = viewFactory.init(config);
 
 input.on('line', event => {
     if (event.trim() === 'STICK') {
-        process.stdout.write(view.render(model.state) as any);
+        process.stdout.write(view.render(model.state));
     } else if (event.trim() === 'SKILL') {
         process.exit();
     }
-});    
+});
 
 process.stdout.write('READY\n');
+
 model.activity
   .then(() => process.exit(0))
   .catch(err => {
-    require('fs').appendFileSync('error.txt', JSON.stringify(err) + "\n");
     console.error(err);
     process.exit(1);
   });

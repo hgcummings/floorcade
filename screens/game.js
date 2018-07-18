@@ -14,6 +14,7 @@ module.exports.init = (gameConfig) => {
             const [command, ...args] = gameConfig.command.split(' ');
             args.push(...['--width',width,'--height',height]);
 
+            console.log(`Launching game ${gameConfig.title}`);
             game = spawn(
                 command,
                 args,
@@ -44,6 +45,7 @@ module.exports.init = (gameConfig) => {
         } else {
             const data = game.stdout.read();
             if (data && data.toString('utf8').trim() === 'READY') {
+                console.log('... game started.');
                 started = true;
                 input(gameConfig.players.max, game.stdin);
                 game.stdout.pipe(stream);

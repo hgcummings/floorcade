@@ -4,15 +4,19 @@
   "description": "Tron light cycle game for Floorcade",
   "main": "controller.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "watch": "tsc --watch"
   },
   "author": "hgcummings",
   "license": "MIT",
   "dependencies": {
+    "@types/lodash": "^4.14.112",
     "argparse": "^1.0.10",
     "js-pixel-fonts": "1.5.0",
     "lodash": "^4.17.10",
-    "rxjs": "^6.2.1"
+    "rxjs": "^6.2.1",
+    "typescript": "^2.9.2"
   },
   "devDependencies": {
     "@types/node": "^10.5.2"

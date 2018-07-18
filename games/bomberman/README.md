@@ -2,6 +2,5 @@
 
 ```
 npm install
-npm install --global typescript
-tsc --watch
+npm run watch
 ```

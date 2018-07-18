@@ -1,0 +1,8 @@
+{
+"title": "BOMBERPERSON",
+"command": "python main.py",
+  "players": {
+      "min": 1,
+      "max": 4
+  }
+}

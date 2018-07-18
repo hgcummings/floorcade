@@ -1,24 +1,33 @@
-const directionBtns = ['DU','DR','DD','DL'];
-const {validDirections} = require('./round/directions');
-const {scan} = require('rxjs/operators');
-import * as _ from 'lodash';
+import { Observable } from 'rxjs';
+import { map, filter } from 'rxjs/operators';
+import { mapToAction, MoveAction, DynamiteAction } from './keymap';
+export { MoveAction, DynamiteAction };
 
-module.exports = (playerEvents) => 
-    playerEvents.pipe(scan((acc, event) => {
-        const next = acc.concat();
-        if (_.includes(directionBtns, event.key)) {
-            const component = 1 << (directionBtns.indexOf(event.key));
-            const i = event.id - 1;
-            let newDirection = 0;
-            if (event.type === 'down') {
-                newDirection = acc[i] | component;
-            } else {
-                newDirection = acc[i] & (~component);
+interface KeyEvent {
+    id: number,
+    key: string,
+    type: "down" | "up"
+}
+
+export type Action = MoveAction | DynamiteAction;
+
+export interface ActionEvent {
+    playerId: number,
+    action: Action
+}
+
+export function mapInputEventsToActions(inputEvents): Observable<ActionEvent> {
+    return inputEvents.pipe(
+        map((keyEvent: KeyEvent) => {
+            const action = mapToAction(keyEvent.key);
+            if (!action || keyEvent.type != "down") {
+                return undefined;
             }
-            if (!validDirections.hasOwnProperty(newDirection)){
-                newDirection = event.type === 'down' ? component : 0;
+            return {
+                playerId: keyEvent.id,
+                action: action,
             }
-            next[i] = newDirection;
-        }
-        return next;
-    }, [0,0,0,0]));
+        }),
+        filter(x => !!x)
+    );
+}
