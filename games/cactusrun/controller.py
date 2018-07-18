@@ -1,5 +1,4 @@
 import sys
-import time
 
 from playfield import Playfield
 
@@ -7,7 +6,6 @@ from playfield import Playfield
 class Controller:
 
     def __init__(self):
-        self.last_tick = time.time()
         self.playfield = Playfield()
         self.playfield.init()
         pass
@@ -22,9 +20,7 @@ class Controller:
         if line.strip() == 'SKILL':
             exit()
         elif line.strip() == 'STICK':
-            if time.time() - self.last_tick > 0.1:
-                self.playfield.run_playfield_cycle()
-                self.last_tick = time.time()
+            self.playfield.run_playfield_cycle()
             self.print_pixel_map(self.playfield.generate_pixel_map())
         elif line[0] == 'P':
             self.on_user_input(line[1:5])

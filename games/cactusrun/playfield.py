@@ -1,4 +1,5 @@
 import argparse
+from util.timer import Timer
 
 from world.world import World
 
@@ -8,6 +9,7 @@ class Playfield:
     def __init__(self):
         self.dimensions = None
         self.world = None
+        self.timer = Timer()
         self.map = []
 
     def init(self):
@@ -21,7 +23,8 @@ class Playfield:
         self.world.create_world()
 
     def run_playfield_cycle(self):
-        self.world.run_world_cycle()
+        elapsed_time = self.timer.elapsed_time_since_last_check()
+        self.world.run_world_cycle(elapsed_time)
         self.reset()
 
     def reset(self):
@@ -33,9 +36,9 @@ class Playfield:
         current_map = self.map
         runner = self.world.runner
         cactus = self.world.cactus
-        current_map[runner.coords.y][runner.coords.x] = True
-        current_map[cactus.coords.y][cactus.coords.x] = True
-        current_map[cactus.coords.y - 1][cactus.coords.x] = True
-        current_map[cactus.coords.y - 2][cactus.coords.x] = True
-        current_map[cactus.coords.y - 3][cactus.coords.x] = True
+        current_map[int(runner.coords.y)][int(runner.coords.x)] = True
+        current_map[int(cactus.coords.y)][int(cactus.coords.x)] = True
+        current_map[int(cactus.coords.y - 1)][int(cactus.coords.x)] = True
+        current_map[int(cactus.coords.y - 2)][int(cactus.coords.x)] = True
+        current_map[int(cactus.coords.y - 3)][int(cactus.coords.x)] = True
         return current_map

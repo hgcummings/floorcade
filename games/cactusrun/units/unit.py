@@ -15,10 +15,10 @@ class Unit:
             for y in range(0, self.size.y):
                 drawing_coords.append(Point(self.coords.x + x, self.coords.y + y))
 
-    def move(self):
-        self.coords.x += self.velocity.x
-        self.coords.y += self.velocity.y
+    def move(self, elapsed_time):
+        self.coords.x += self.velocity.x * elapsed_time
+        self.coords.y += self.velocity.y * elapsed_time
 
-    def accelerate(self, acceleration):
-        self.velocity.x += acceleration.x
-        self.velocity.y += acceleration.y
+    def accelerate(self, acceleration, elapsed_time):
+        self.velocity.x += acceleration.x * elapsed_time
+        self.velocity.y += acceleration.y * elapsed_time
