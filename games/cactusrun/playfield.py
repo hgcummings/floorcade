@@ -1,5 +1,6 @@
 import argparse
 
+from util import pixel
 from util.pixel import Pixel
 from util.timer import Timer
 
@@ -31,7 +32,7 @@ class Playfield:
 
     def reset(self):
         self.map = [
-            [Pixel.black() if (j != self.dimensions.height / 2 + 1) else Pixel.white() for i in range(self.dimensions.width)] for j in
+            [pixel.black if (j != self.dimensions.height / 2 + 1) else pixel.white for i in range(self.dimensions.width)] for j in
             range(self.dimensions.height)]
 
     def generate_pixel_map(self):

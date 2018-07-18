@@ -1,4 +1,4 @@
-from util.pixel import Pixel
+from util import pixel
 from util.point import Point
 
 
@@ -29,6 +29,6 @@ class Unit:
         for row in range(0, self.size.y):
             pixel_row = []
             for column in range(0, self.size.x):
-                pixel_row.append(Pixel.white())
+                pixel_row.append(pixel.white)
             pixels.append(pixel_row)
         return pixels

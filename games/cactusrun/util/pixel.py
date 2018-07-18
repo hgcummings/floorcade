@@ -8,10 +8,6 @@ class Pixel:
     def to_string(self):
         return chr(self.r) + chr(self.g) + chr(self.b)
 
-    @staticmethod
-    def white():
-        return Pixel(255, 255, 255)
 
-    @staticmethod
-    def black():
-        return Pixel(0, 0, 0)
+white = Pixel(255, 255, 255)
+black = Pixel(0, 0, 0)
