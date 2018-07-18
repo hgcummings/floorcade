@@ -1,15 +1,11 @@
 from point import Point
+from units.unit import Unit
 
 
-class Cactus:
+class Cactus(Unit):
 
-    def __init__(self, coords):
-        self.coords = coords
-        self.velocity = Point(-2, 0)
-        self.size = Point(3, 4)
-
-    def move(self, dimensions):
-        self.coords.x += self.velocity.x
+    def move(self):
+        Unit.move(self)
         if self.coords.x < 5:
-            self.coords.x = dimensions.width - 1
-            self.velocity.x -= 1
+            self.coords.x = 55
+            self.accelerate(Point(-1, 0))

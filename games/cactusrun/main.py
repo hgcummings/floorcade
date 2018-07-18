@@ -10,8 +10,9 @@ from units.runner import Runner
 playfield = Playfield()
 playfield.init()
 
-runner = Runner(Point(10, playfield.dimensions.height / 2))
-cactus = Cactus(Point(playfield.dimensions.width - 1, playfield.dimensions.height / 2))
+runner = Runner(Point(10, playfield.dimensions.height / 2), Point(3,4))
+cactus = Cactus(Point(playfield.dimensions.width - 1, playfield.dimensions.height / 2), Point(3,4))
+cactus.accelerate(Point(-2,0))
 
 acceleration_x, acceleration_y = 0, 1
 
@@ -31,9 +32,9 @@ while True:
                 continue
 
             runner.move()
-            runner.accelerate(acceleration_y)
+            runner.accelerate(Point(0, 1))
 
-            cactus.move(playfield.dimensions)
+            cactus.move()
 
             playfield.reset()
 
