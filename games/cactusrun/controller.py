@@ -25,7 +25,7 @@ class Controller:
             if time.time() - self.last_tick > 0.1:
                 self.playfield.run_playfield_cycle()
                 self.last_tick = time.time()
-            for row in self.playfield.generate(self.playfield.world.runner, self.playfield.world.cactus):
+            for row in self.playfield.generate_pixel_map():
                 for cell in row:
                     sys.stdout.write('\xff\xff\xff' if cell else '\x00\x00\x00')
             sys.stdout.flush()
