@@ -1,9 +1,7 @@
 import argparse
 
 from util import pixel
-from util.pixel import Pixel
 from util.timer import Timer
-
 from world.world import World
 
 
