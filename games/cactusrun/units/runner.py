@@ -13,7 +13,7 @@ class Runner(Unit):
         self.accelerate(Point(0, settings.jump_height * -1), 1)
 
     def get_pixels(self):
-        pixel_map =  [
+        pixel_map = [
             [pixel.black, pixel.white, pixel.black],
             [pixel.white, pixel.white, pixel.white],
             [pixel.black, pixel.white, pixel.black],
