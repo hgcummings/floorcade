@@ -13,11 +13,13 @@ class Runner(Unit):
         self.accelerate(Point(0, settings.jump_height * -1), 1)
 
     def get_pixels(self):
+        bare = pixel.black
+        fill = pixel.cyan
         pixel_map = [
-            [pixel.black, pixel.white, pixel.black],
-            [pixel.white, pixel.white, pixel.white],
-            [pixel.black, pixel.white, pixel.black],
-            [pixel.white, pixel.black, pixel.white],
+            [bare, fill, bare],
+            [fill, fill, fill],
+            [bare, fill, bare],
+            [fill, bare, fill],
         ]
         pixel_map.reverse()
         return pixel_map
