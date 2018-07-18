@@ -8,4 +8,4 @@ class Runner(Unit):
         return self.coords.y >= dimensions.height / 2
 
     def jump(self):
-        self.accelerate(Point(0, -20), 1)
+        self.accelerate(Point(0, -30), 1)

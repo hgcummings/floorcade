@@ -25,9 +25,10 @@ class World:
             return
 
         self.runner.move(elapsed_time)
-        self.runner.accelerate(Point(0, 30), elapsed_time)
+        self.runner.accelerate(Point(0, 50), elapsed_time)
 
         self.cactus.move(elapsed_time)
 
         if self.runner.in_default_position(self.dimensions):
             self.runner.velocity.y = 0
+            self.runner.coords.y = self.dimensions.height / 2
