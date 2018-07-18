@@ -25,11 +25,18 @@ class Controller:
             if time.time() - self.last_tick > 0.1:
                 self.playfield.run_playfield_cycle()
                 self.last_tick = time.time()
-            for row in self.playfield.generate_pixel_map():
-                for cell in row:
-                    sys.stdout.write('\xff\xff\xff' if cell else '\x00\x00\x00')
-            sys.stdout.flush()
+            self.print_pixel_map(self.playfield.generate_pixel_map())
         elif line[0] == 'P':
-            if line[4:5] == '1':
-                if self.playfield.world.runner.in_default_position(self.playfield.dimensions):
-                    self.playfield.world.runner.jump()
+            self.on_user_input(line[1:5])
+
+    def on_user_input(self, user_input):
+        if user_input[3:4] == '1':
+            if self.playfield.world.runner.in_default_position(self.playfield.dimensions):
+                self.playfield.world.runner.jump()
+
+    @staticmethod
+    def print_pixel_map(pixel_map):
+        for row in pixel_map:
+            for cell in row:
+                sys.stdout.write('\xff\xff\xff' if cell else '\x00\x00\x00')
+        sys.stdout.flush()
