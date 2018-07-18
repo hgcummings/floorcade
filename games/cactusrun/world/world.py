@@ -1,6 +1,7 @@
 import math
 import sys
 
+import settings
 from units.cactus import Cactus
 from units.runner import Runner
 from util.point import Point
@@ -24,8 +25,8 @@ class World:
                 self.runner.coords.y - self.cactus.coords.y) < self.cactus.size.y:
             return
 
-        self.runner.move(elapsed_time)
-        self.runner.accelerate(Point(0, 50), elapsed_time)
+        self.runner.move(elapsed_time, settings.gravity)
+        self.runner.accelerate(settings.gravity, elapsed_time)
 
         self.cactus.move(elapsed_time)
 

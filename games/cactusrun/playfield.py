@@ -36,9 +36,9 @@ class Playfield:
         current_map = self.map
         runner = self.world.runner
         cactus = self.world.cactus
-        current_map[int(runner.coords.y)][int(runner.coords.x)] = True
-        current_map[int(cactus.coords.y)][int(cactus.coords.x)] = True
-        current_map[int(cactus.coords.y - 1)][int(cactus.coords.x)] = True
-        current_map[int(cactus.coords.y - 2)][int(cactus.coords.x)] = True
-        current_map[int(cactus.coords.y - 3)][int(cactus.coords.x)] = True
+        current_map[int(round(runner.coords.y))][int(round(runner.coords.x))] = True
+        current_map[int(round(cactus.coords.y))][int(round(cactus.coords.x))] = True
+        current_map[int(round(cactus.coords.y - 1))][int(round(cactus.coords.x))] = True
+        current_map[int(round(cactus.coords.y - 2))][int(round(cactus.coords.x))] = True
+        current_map[int(round(cactus.coords.y - 3))][int(round(cactus.coords.x))] = True
         return current_map
