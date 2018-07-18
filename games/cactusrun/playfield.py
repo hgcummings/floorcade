@@ -30,9 +30,20 @@ class Playfield:
 
     def reset(self):
         self.map = [
-            [pixel.black if (j != self.dimensions.height / 2 + 1) else pixel.white for i in range(self.dimensions.width)] for j in
-            range(self.dimensions.height)]
+            [pixel.black if (j != self.dimensions.height / 2 + 1) else pixel.white for i in
+             range(self.dimensions.width)]
+            for j in range(self.dimensions.height)]
 
     def generate_pixel_map(self):
         current_map = self.map
-        return current_map
+        units = self.world.get_units()
+
+        for unit in units:
+            unit_pixels = unit.get_pixels()
+            unit_coords = unit.coords.get_int_coords()
+
+            for row in range(0, unit.size.y):
+                for col in range(0, unit.size.x):
+                    current_map[unit_coords.y - row][unit_coords.x + col] = unit_pixels[row][col]
+
+        return self.map

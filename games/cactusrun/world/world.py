@@ -1,5 +1,4 @@
 import math
-import sys
 
 import settings
 from units.cactus import Cactus
@@ -33,3 +32,6 @@ class World:
         if self.runner.in_default_position(self.dimensions):
             self.runner.velocity.y = 0
             self.runner.coords.y = self.dimensions.height / 2
+
+    def get_units(self):
+        return [self.runner, self.cactus]

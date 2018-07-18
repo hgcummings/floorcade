@@ -28,7 +28,7 @@ class Unit:
         pixels = []
         for row in range(0, self.size.y):
             pixel_row = []
-            for column in range(0, self.size.x):
+            for col in range(0, self.size.x):
                 pixel_row.append(pixel.white)
             pixels.append(pixel_row)
         return pixels
