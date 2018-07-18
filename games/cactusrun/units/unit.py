@@ -1,4 +1,4 @@
-from point import Point
+from util.point import Point
 
 
 class Unit:

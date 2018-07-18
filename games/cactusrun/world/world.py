@@ -1,7 +1,6 @@
 import math
-import time
 
-from point import Point
+from util.point import Point
 from units.cactus import Cactus
 from units.runner import Runner
 
