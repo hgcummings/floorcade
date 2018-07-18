@@ -12,12 +12,14 @@ class World:
         self.dimensions = dimensions
         self.runner = None
         self.cactus = None
+        self.ground = None
         pass
 
     def create_world(self):
         self.runner = Runner(Point(10, self.dimensions.height / 2), Point(3, 4))
         self.cactus = Cactus(Point(self.dimensions.width - 1, self.dimensions.height / 2), Point(3, 4))
         self.cactus.accelerate(Point(-20, 0), 1)
+        self.ground = Cactus(Point(0, self.dimensions.height / 2 + 2), Point(self.dimensions.width, 2))
 
     def run_world_cycle(self, elapsed_time):
         if math.fabs(self.runner.coords.x - self.cactus.coords.x) < self.cactus.size.x and math.fabs(
@@ -34,4 +36,4 @@ class World:
             self.runner.coords.y = self.dimensions.height / 2
 
     def get_units(self):
-        return [self.runner, self.cactus]
+        return [self.runner, self.cactus, self.ground]
