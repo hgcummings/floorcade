@@ -2,16 +2,24 @@ import math
 import sys
 import time
 
+from playfield import Playfield
 from point import Point
+from units.cactus import Cactus
+from units.runner import Runner
 
 
 class Controller:
 
-    def __init__(self, playfield, runner, cactus):
+    def __init__(self):
         self.last_tick = time.time()
-        self.runner = runner
-        self.cactus = cactus
-        self.playfield = playfield
+
+        self.playfield = Playfield()
+        self.playfield.init()
+
+        self.runner = Runner(Point(10, self.playfield.dimensions.height / 2), Point(3, 4))
+        self.cactus = Cactus(Point(self.playfield.dimensions.width - 1, self.playfield.dimensions.height / 2),
+                             Point(3, 4))
+        self.cactus.accelerate(Point(-2, 0))
         pass
 
     @staticmethod
