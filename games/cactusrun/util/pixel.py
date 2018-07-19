@@ -6,7 +6,7 @@ class Pixel:
         self.b = b
 
     def to_string(self):
-        return '\x00\xff\x00'
+        return chr(self.r) + chr(self.g) + chr(self.b)
 
 
 white = Pixel(255, 255, 255)
