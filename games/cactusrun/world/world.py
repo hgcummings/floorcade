@@ -1,4 +1,5 @@
 import math
+import random
 
 import settings
 from units.cactus import Cactus
