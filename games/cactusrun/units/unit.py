@@ -32,3 +32,25 @@ class Unit:
                 pixel_row.append(pixel.white)
             pixels.append(pixel_row)
         return pixels
+
+    def collide(self, collider):
+        self_coords = self.get_edge_coords()
+        collder_coords = collider.get_edge_coords()
+
+        for row in self_coords:
+            for coords in row:
+                if coords.is_inside(collder_coords):
+                    return True
+        return False
+
+    def get_edge_coords(self):
+        return [
+            [
+                Point(self.coords.x, self.coords.y),
+                Point(self.coords.x + self.size.x, self.coords.y),
+            ],
+            [
+                Point(self.coords.x, self.coords.y + self.size.y),
+                Point(self.coords.x + self.size.x, self.coords.y + self.size.y),
+            ]
+        ]

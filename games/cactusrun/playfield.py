@@ -29,6 +29,10 @@ class Playfield:
         self.world.run_world_cycle(elapsed_time)
 
     def generate_pixel_map(self):
+
+        if self.world.game_has_ended:
+            return self.map
+
         self.clear_pixel_map()
 
         current_map = self.map

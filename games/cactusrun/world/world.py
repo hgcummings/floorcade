@@ -13,6 +13,7 @@ class World:
         self.runner = None
         self.cactus = None
         self.ground = None
+        self.game_has_ended = False
         pass
 
     def create_world(self):
@@ -22,8 +23,9 @@ class World:
         self.ground = Cactus(Point(0, self.dimensions.height / 2 + 2), Point(self.dimensions.width, 2))
 
     def run_world_cycle(self, elapsed_time):
-        if math.fabs(self.runner.coords.x - self.cactus.coords.x) < self.cactus.size.x and math.fabs(
-                self.runner.coords.y - self.cactus.coords.y) < self.cactus.size.y:
+
+        if self.runner.collide_with(self.cactus):
+            self.game_has_ended = True
             return
 
         self.runner.move(elapsed_time, settings.gravity)
@@ -36,4 +38,4 @@ class World:
             self.runner.coords.y = self.dimensions.height / 2
 
     def get_units(self):
-        return [self.runner, self.cactus, self.ground]
+        return [self.cactus, self.runner, self.ground]
