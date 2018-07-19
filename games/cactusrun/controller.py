@@ -1,4 +1,3 @@
-import argparse
 import sys
 
 from playfield import Playfield
@@ -7,14 +6,8 @@ from playfield import Playfield
 class Controller:
 
     def __init__(self):
-        # self.playfield = Playfield()
-        # self.playfield.init()
-
-        parser = argparse.ArgumentParser()
-        parser.add_argument('--width', type=int)
-        parser.add_argument('--height', type=int)
-        self.dimensions = parser.parse_args()
-
+        self.playfield = Playfield()
+        self.playfield.init()
         pass
 
     @staticmethod
@@ -27,23 +20,15 @@ class Controller:
         if line.strip() == 'SKILL':
             exit()
         elif line.strip() == 'STICK':
-
-            playfield = [[False for i in range(self.dimensions.width)] for j in range(self.dimensions.height)]
-
-            for row in playfield:
-                for cell in row:
-                    sys.stdout.write('\x00\xff\x00' if cell else '\x00\x00\xff')
-
-            # self.playfield.run_playfield_cycle()
-            # self.print_pixel_map(self.playfield.generate_pixel_map())
+            self.playfield.run_playfield_cycle()
+            self.print_pixel_map(self.playfield.generate_pixel_map())
         elif line[0] == 'P':
             self.on_user_input(line[1:5])
 
     def on_user_input(self, user_input):
-        pass
-        # if user_input[3:4] == '1':
-        #     if self.playfield.world.runner.in_default_position(self.playfield.dimensions):
-        #         self.playfield.world.runner.jump()
+        if user_input[3:4] == '1':
+            if self.playfield.world.runner.in_default_position(self.playfield.dimensions):
+                self.playfield.world.runner.jump()
 
     @staticmethod
     def print_pixel_map(pixel_map):
