@@ -33,7 +33,7 @@ class Unit:
             pixels.append(pixel_row)
         return pixels
 
-    def collide(self, collider):
+    def collide_with(self, collider):
         self_coords = self.get_edge_coords()
         collder_coords = collider.get_edge_coords()
 
