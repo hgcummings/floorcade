@@ -1,6 +1,6 @@
 {
     "title": "Cactus Run",
-    "command": "python snake.py",
+    "command": "python main.py",
     "players": {
         "min": 1,
         "max": 4
