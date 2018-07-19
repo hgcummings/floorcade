@@ -13,7 +13,7 @@ class Runner(Unit):
         self.accelerate(Point(0, settings.jump_height * -1), 1)
 
     def get_pixels(self):
-        bare = pixel.black
+        bare = False
         fill = pixel.cyan
         pixel_map = [
             [bare, fill, bare],

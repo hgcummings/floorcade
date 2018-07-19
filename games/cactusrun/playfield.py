@@ -39,14 +39,18 @@ class Playfield:
         units = self.world.get_units()
 
         for unit in units:
-            unit_pixels = unit.get_pixels()
-            unit_coords = unit.coords.get_int_coords()
-
-            for row in range(0, unit.size.y):
-                for col in range(0, unit.size.x):
-                    current_map[unit_coords.y - row][unit_coords.x + col] = unit_pixels[row][col]
+            self.draw_unit_on_map(unit, current_map)
 
         return current_map
+
+    @staticmethod
+    def draw_unit_on_map(unit, current_map):
+        unit_pixels = unit.get_pixels()
+        unit_coords = unit.coords.get_int_coords()
+        for row in range(0, unit.size.y):
+            for col in range(0, unit.size.x):
+                if unit_pixels[row][col]:
+                    current_map[unit_coords.y - row][unit_coords.x + col] = unit_pixels[row][col]
 
     def clear_pixel_map(self):
         self.map = [[pixel.black for i in range(self.dimensions.width)] for j in range(self.dimensions.height)]
