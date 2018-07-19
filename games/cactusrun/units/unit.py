@@ -12,8 +12,8 @@ class Unit:
     def get_drawing_coords(self):
         drawing_coords = []
 
-        for x in range(0, self.size.x):
-            for y in range(0, self.size.y):
+        for x in range(self.size.x):
+            for y in range(self.size.y):
                 drawing_coords.append(Point(self.coords.x + x, self.coords.y + y))
 
     def move(self, elapsed_time, acceleration=Point(0, 0)):
@@ -26,9 +26,9 @@ class Unit:
 
     def get_pixels(self):
         pixels = []
-        for row in range(0, self.size.y):
+        for row in range(self.size.y):
             pixel_row = []
-            for col in range(0, self.size.x):
+            for col in range(self.size.x):
                 pixel_row.append(pixel.white)
             pixels.append(pixel_row)
         return pixels

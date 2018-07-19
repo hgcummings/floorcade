@@ -47,8 +47,8 @@ class Playfield:
     def draw_unit_on_map(unit, current_map):
         unit_pixels = unit.get_pixels()
         unit_coords = unit.coords.get_int_coords()
-        for row in range(0, unit.size.y):
-            for col in range(0, unit.size.x):
+        for row in range(unit.size.y):
+            for col in range(unit.size.x):
                 if unit_pixels[row][col]:
                     current_map[unit_coords.y - row][unit_coords.x + col] = unit_pixels[row][col]
 
