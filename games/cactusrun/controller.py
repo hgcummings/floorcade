@@ -22,7 +22,7 @@ class Controller:
         elif line.strip() == 'STICK':
             self.playfield.run_playfield_cycle()
             self.print_pixel_map(self.playfield.generate_pixel_map())
-        elif line[0] == 'P':
+        elif len(line) > 4 and line.startswith('P'):
             self.on_user_input(line[1:5])
 
     def on_user_input(self, user_input):

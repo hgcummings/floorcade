@@ -1,6 +1,7 @@
 import argparse
 
 from util import pixel
+from util.point import Point
 from util.timer import Timer
 from world.world import World
 
@@ -43,14 +44,27 @@ class Playfield:
 
         return current_map
 
-    @staticmethod
-    def draw_unit_on_map(unit, current_map):
+    def draw_unit_on_map(self, unit, current_map):
         unit_pixels = unit.get_pixels()
         unit_coords = unit.coords.get_int_coords()
         for row in range(unit.size.y):
             for col in range(unit.size.x):
                 if unit_pixels[row][col]:
-                    current_map[unit_coords.y - row][unit_coords.x + col] = unit_pixels[row][col]
+                    pixel_coords = Point(unit_coords.x + col, unit_coords.y - row)
+                    if pixel_coords.is_inside(self.get_edge_coords()):
+                        current_map[unit_coords.y - row][unit_coords.x + col] = unit_pixels[row][col]
+
+    def get_edge_coords(self):
+        return [
+            [
+                Point(0, 0),
+                Point(self.dimensions.width, 0),
+            ],
+            [
+                Point(0, self.dimensions.height),
+                Point(self.dimensions.width, self.dimensions.height),
+            ]
+        ]
 
     def clear_pixel_map(self):
         self.map = [[pixel.black for i in range(self.dimensions.width)] for j in range(self.dimensions.height)]
