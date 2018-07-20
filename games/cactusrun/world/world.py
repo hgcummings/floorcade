@@ -19,7 +19,7 @@ class World:
 
     def create_world(self):
         self.runner = Runner(Point(10, self.dimensions.height / 2), Point(3, 4))
-        self.cactus = Cactus(Point(self.dimensions.width - 5, self.dimensions.height / 2), Point(3, 4))
+        self.cactus = Cactus(Point(self.dimensions.width, self.dimensions.height / 2), Point(3, 4))
         self.cactus.accelerate(Point(-20, 0), 1)
         self.ground = Cactus(Point(0, self.dimensions.height / 2 + 2), Point(self.dimensions.width, 2))
 
@@ -29,7 +29,7 @@ class World:
             self.game_has_ended = True
             return
 
-        self.runner.move(elapsed_time, settings.gravity)
+        self.runner.move(elapsed_time)
         self.runner.accelerate(settings.gravity, elapsed_time)
 
         self.cactus.move(elapsed_time)
@@ -37,6 +37,11 @@ class World:
         if self.runner.in_default_position(self.dimensions):
             self.runner.velocity.y = 0
             self.runner.coords.y = self.dimensions.height / 2
+
+        if self.cactus.coords.x < 0 - self.cactus.size.x:
+            self.cactus.accelerate(Point(-1, 0), 1)
+            self.cactus.size = Point(random.randint(1, 3), random.randint(1, 4))
+            self.cactus.coords.x = self.dimensions.width
 
     def get_units(self):
         return [self.cactus, self.runner, self.ground]
