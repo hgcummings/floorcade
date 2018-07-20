@@ -17,7 +17,7 @@ class Runner(Unit):
         fill = pixel.cyan
         pixel_map = [
             [bare, fill, bare],
-            [fill, fill, fill],
+            [bare, fill, fill],
             [bare, fill, bare],
             [fill, bare, fill],
         ]
