@@ -12,13 +12,15 @@ module.exports.init = (config) => {
             filterType: 4
         }))
         .on('parsed', function() {
+            let offsetY = 200;
+            let offsetX = 200;
             for (let y=0; y<config.height; y++) {
                 for (let x=0; x<config.width; x++) {
                     let i = config.width*y*3 + x*3;
-                    let j = this.width*y*4 + x*4;
-                    frame[i] = 255; //this.data[i];
-                    frame[i+1] = 0; //this.data[i+1];
-                    frame[i+2] = 0; //this.data[i+2];
+                    let j = this.width*(y+offsetY)*4 + (x+offsetX)*4;
+                    frame[i] = this.data[j];
+                    frame[i+1] = this.data[j+1];
+                    frame[i+2] = this.data[j+2];
                 }
             }
         }); 
