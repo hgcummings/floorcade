@@ -5,8 +5,6 @@ const PNG = require('pngjs').PNG;
 
 module.exports.init = (config) => {
     const frames = [];
-    let frameIndex = 0;
-
 
     fs.readdirSync('./sourceImages').sort().forEach((filename) => {
         fs.createReadStream(`./sourceImages/${filename}`)
@@ -44,15 +42,7 @@ module.exports.init = (config) => {
             }
         }
     };
-    const tick = () => {
-        // update state
-        frameIndex = (frameIndex + 1) % frames.length;
-        setTimeout(tick, 500);
-    };
-
-    setTimeout(tick, 500);
-    const render = () => frames[frameIndex]; // serialise
-
+    const render = (frameIndex) => frames[frameIndex];
 
     return {
         render

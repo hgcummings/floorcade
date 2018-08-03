@@ -23,9 +23,19 @@ const playerEvents = most.fromEvent('line', input)
 
 const view = viewFactory.init(config);
 
+let frameIndex = 0;
+const tickRate = 700;
+const tick = () => {
+    // update state
+    frameIndex = (frameIndex + 1) % 13;
+    setTimeout(tick, tickRate);
+};
+
+setTimeout(tick, tickRate);
+
 input.on('line', event => {
     if (event.trim() === 'STICK') {
-        process.stdout.write(view.render());
+        process.stdout.write(view.render(frameIndex));
     } else if (event.trim() === 'SKILL') {
         process.exit();
     }
