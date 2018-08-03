@@ -6,7 +6,9 @@ const PNG = require('pngjs').PNG;
 module.exports.init = (config) => {
     const frames = [];
 
-    fs.readdirSync('./sourceImages').sort().forEach((filename) => {
+    const sourceImageNames = fs.readdirSync('./sourceImages');
+    
+    sourceImageNames.sort().forEach((filename) => {
         fs.createReadStream(`./sourceImages/${filename}`)
             .pipe(new PNG({
                 filterType: 4
@@ -45,6 +47,7 @@ module.exports.init = (config) => {
     const render = (frameIndex) => frames[frameIndex];
 
     return {
+        nFrames: sourceImageNames.length,
         render
     };
 }

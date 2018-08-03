@@ -27,7 +27,7 @@ let frameIndex = 0;
 const tickRate = 700;
 const tick = () => {
     // update state
-    frameIndex = (frameIndex + 1) % 13;
+    frameIndex = (frameIndex + 1) % view.nFrames;
     setTimeout(tick, tickRate);
 };
 
