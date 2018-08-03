@@ -3,11 +3,12 @@ const fs = require("fs");
 const PNG = require('pngjs').PNG;
 
 
-
 module.exports.init = (config) => {
     const frames = [];
+    let frameIndex = 0;
 
-    fs.readdirSync('./sourceImages').forEach((filename) => {
+
+    fs.readdirSync('./sourceImages').sort().forEach((filename) => {
         fs.createReadStream(`./sourceImages/${filename}`)
             .pipe(new PNG({
                 filterType: 4
@@ -25,23 +26,33 @@ module.exports.init = (config) => {
                         frame[i+2] = this.data[j+2];
                     }
                 }
+                drawTimestamp(frame, Math.floor(config.width / 2), filename.slice(11,16), 20);
                 frames.push(frame);
             }); 
     });
 
-    const render = () => frames[2]; // serialise
+    const drawTimestamp = (frame, offset, timestamp, maxWidth) => {
+        const scorePixels = renderPixels(timestamp, fonts.slumbers);
+        const leftEdge = (offset + maxWidth) - scorePixels[0].length - 2;
+        for (let j = 0; j < scorePixels.length; ++j) {
+            for (let i = 0; i < scorePixels[j].length; ++i) {
+                for (let z = 0; z < 3; ++z) {
+                    if (scorePixels[j][i]) {
+                        frame[((leftEdge + i + 1) + ((j + 1) * config.width)) * 3 + z] = 255;
+                    }
+                }
+            }
+        }
+    };
+    const tick = () => {
+        // update state
+        frameIndex = (frameIndex + 1) % frames.length;
+        setTimeout(tick, 500);
+    };
 
-    //const startTime = new Date().getTime();
-    //const getTickRate = function () {
-    //    return Math.min(75, 200 - ((new Date().getTime() - startTime) / 1000));
-    //};
+    setTimeout(tick, 500);
+    const render = () => frames[frameIndex]; // serialise
 
-    //const tick = () => {
-    //    // update state
-    //    setTimeout(tick, getTickRate(startTime));
-    //};
-
-    //setTimeout(tick, getTickRate(startTime));
 
     return {
         render
