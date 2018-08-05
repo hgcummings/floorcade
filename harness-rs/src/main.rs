@@ -6,6 +6,7 @@ extern crate serde_json;
 #[macro_use]
 extern crate serde_derive;
 
+use std::str::from_utf8;
 use std::fmt;
 use std::fmt::{Debug, Display, Formatter};
 use std::fs::File;
@@ -65,6 +66,7 @@ enum HarnessError {
     GameJson(),
     GameSpawn(io::Error),
     GameIo(io::Error),
+    GameIoLogic(),
     GameExit(io::Error),
     GameStatus(ExitStatus),
 }
@@ -77,6 +79,7 @@ impl fmt::Display for HarnessError {
             HarnessError::GameJson() => write!(f, "Game JSON Error"),
             HarnessError::GameSpawn(ref err) => write!(f, "Game Spawn Error: {}", err),
             HarnessError::GameIo(ref err) => write!(f, "Game IO Error: {}", err),
+            HarnessError::GameIoLogic() => write!(f, "Game IO logic error."),
             HarnessError::GameExit(ref err) => write!(f, "Game Exit Error: {}", err),
             HarnessError::GameStatus(ref exit) => {
                 write!(f, "Game returned non zero status: {}", exit)
@@ -93,6 +96,7 @@ impl std::error::Error for HarnessError {
             HarnessError::GameJson() => None,
             HarnessError::GameSpawn(ref err) => Some(err),
             HarnessError::GameIo(ref err) => Some(err),
+            HarnessError::GameIoLogic() => None,
             HarnessError::GameExit(ref err) => Some(err),
             HarnessError::GameStatus(_) => None,
         }
@@ -116,7 +120,7 @@ fn main() {
 macro_rules! game_read {
     ($x:expr) => {
         match $x {
-            Ok(_) => {}
+            Ok(ok) => { ok }
             Err(err) => {
                 return match err.kind() {
                     io::ErrorKind::UnexpectedEof => Ok(()),
@@ -130,7 +134,7 @@ macro_rules! game_read {
 macro_rules! game_write {
     ($x:expr) => {
         match $x {
-            Ok(_) => {}
+            Ok(ok) => { ok }
             Err(err) => {
                 return match err.kind() {
                     io::ErrorKind::WriteZero => Ok(()),
@@ -148,11 +152,16 @@ fn main_res() -> Result<(), HarnessError> {
             Arg::with_name("GAME")
                 .help("Game to run")
                 .required(true)
-                .index(1),
+                .index(1)
+        )
+        .arg(
+            Arg::with_name("strict")
+                .help("Harness is strict with game IO")
         )
         .get_matches();
 
     let game_name = matches.value_of("GAME").unwrap();
+    let strict_mode = matches.is_present("strict");
 
     println!("Loading {}", game_name);
 
@@ -244,10 +253,39 @@ fn main_res() -> Result<(), HarnessError> {
         let mut current_player: i32 = 1;
 
         let mut ready = [0; 6];
-        game_read!(game_stdout.read_exact(&mut ready));
-
-        assert!(ready == "READY\n".as_bytes());
-        println!("Game ready!");
+        // Flappy-bird logs to stdout before sending a READY. :/
+        // The spec says "and **must not** send any other data to stdout",
+        // but maybe that's only after ready?
+        const READY : &[u8;6] = b"READY\n";
+        if strict_mode {
+            game_read!(game_stdout.read_exact(&mut ready));
+            if ready != *READY {
+                match from_utf8(&ready) {
+                    Ok(ready) => eprintln!("Game did not send READY as first message: {}", ready),
+                    Err(_) => eprintln!("Game did not send READY as first message: {:x?}", ready),
+                }
+                return Err(HarnessError::GameIoLogic());
+            } else {
+                println!("Game ready!");
+            }
+        } else {
+            let mut i = 0;
+            let mut it = game_stdout.bytes();
+            while let Some(Ok(byte)) = it.next() {
+                if byte == READY[i] {
+                    i=i+1;
+                } else {
+                    i=0;
+                }
+                if i == 6 {
+                    break;
+                }
+            };
+            if i != 6 {
+                println!("Game not ready?");
+                return Err(HarnessError::GameIoLogic());
+            }
+        }
 
         'running: loop {
             key_ups.clear();
