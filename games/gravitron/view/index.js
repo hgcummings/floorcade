@@ -11,7 +11,7 @@ module.exports.init = ({ width, height }) => {
         let pixels = background;
         state.players.forEach(b => pixels = player.render({ player: b }, pixels));
         state.obstacles.forEach(b => pixels = obstacle.render({ obstacle: b }, pixels));
-        state.walls.forEach(b => pixels = wall.render({ wall: b }, pixels));
+        state.walls.forEach(b => pixels = wall.render({ wall: b, players: state.players, obstacles: state.obstacles }, pixels));
         return (new Uint8Array(_.flattenDeep(pixels)));
     };
 
