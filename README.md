@@ -50,7 +50,15 @@ Controller input is emulated via the keyboard using the mapping below. By defaul
 
 #### Harness-rs
 
-Harness-rs emulates the dancefloor using SDL2 for input/display. It requires stable Rust 1.27+, and SDL2.
+Harness-rs emulates the dancefloor using SDL2 for input/display.
+
+Pre-requisites:
+* [Rust 1.27+](https://www.rust-lang.org/en-US/)
+* SDL2
+  * Windows:
+    * Download `SDL2-devel-2.0.8-VC.zip` from [the SDL download page](https://www.libsdl.org/download-2.0.php)
+    * Extract to the `harness-rs` directory
+  * Mac OS: `brew install sdl2`
 
 To run a game, from `harness-rs`, execute the project with a game's name as the only argument. E.g:
 ```
