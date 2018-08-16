@@ -1,0 +1,17 @@
+{
+  "name": "floorcade-games-gravitron",
+  "version": "0.0.1",
+  "description": "Super Gravitron game for Floorcade",
+  "main": "controller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "bbelow",
+  "license": "MIT",
+  "dependencies": {
+    "argparse": "^1.0.10",
+    "js-pixel-fonts": "1.5.0",
+    "lodash": "^4.17.10",
+    "rxjs": "^6.2.1"
+  }
+}
