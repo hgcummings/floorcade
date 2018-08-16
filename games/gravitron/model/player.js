@@ -1,6 +1,6 @@
 module.exports = class Player {
-    constructor(x, y, screenWidth) {
-        console.error(x, y);
+    constructor({id, x, y, screenWidth}) {
+        this.id = id;
         this.x = x;
         this.y = y;
         this.dx = 0;

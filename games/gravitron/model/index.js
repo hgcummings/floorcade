@@ -17,13 +17,14 @@ async function runGame({ width, height }, state, input) {
     ];
 
     state.players = [
-        new Player(12, 12, width)
+        new Player({ id: 1, x: 12, y: 12, screenWidth: width }),
+        new Player({ id: 2, x: 24, y: 20, screenWidth: width })
     ];
 
     state.obstacles = [
-        new Obstacle({x: -10, y: 13, dx: 1}),
-        new Obstacle({x: -14, y: 15, dx: 1}),
-        new Obstacle({x: -20, y: 28, dx: 1}),
+        new Obstacle({ x: -10, y: 13, dx: 1 }),
+        new Obstacle({ x: -14, y: 15, dx: 1 }),
+        new Obstacle({ x: -20, y: 28, dx: 1 }),
     ];
 
     input.subscribe(e => {
@@ -41,29 +42,28 @@ async function runGame({ width, height }, state, input) {
         }
         if (e.key === 'DR') {
             if (e.type === 'down') {
-                state.players.forEach(p => p.dx = 1);
+                state.players.filter(p => p.id === e.id).forEach(p => p.dx = 1);
             }
             if (e.type === 'up') {
-                state.players.forEach(p => p.dx = 0);
+                state.players.filter(p => p.id === e.id).forEach(p => p.dx = 0);
             }
         }
         if (e.key === 'DL') {
             if (e.type === 'down') {
-                state.players.forEach(p => p.dx = -1);
+                state.players.filter(p => p.id === e.id).forEach(p => p.dx = -1);
             }
             if (e.type === 'up') {
-                state.players.forEach(p => p.dx = 0);
+                state.players.filter(p => p.id === e.id).forEach(p => p.dx = 0);
             }
         }
     });
-
 
     function makeRandomObstacle() {
         const x = (Math.random() - 0.5) > 0 ? -1 : width + 1;
         const y = Math.floor((Math.random() * (height - wallBezel - wallBezel)) + wallBezel);
         const dx = x < 0 ? 1 : -1;
         const dy = (Math.random()) > 0.5 ? (Math.random() > 0.5) ? -1 : 1 : 0;
-        state.obstacles.push(new Obstacle({x, y, dx, dy, width}));
+        state.obstacles.push(new Obstacle({ x, y, dx, dy, width }));
     }
 
     const tick = () => {
@@ -76,9 +76,15 @@ async function runGame({ width, height }, state, input) {
 
         state.players.forEach(p => p.move(state.walls));
         state.obstacles.forEach(p => p.move(state.walls));
-        if(state.players.find(p => p.collidesWithAny(state.obstacles))){
+        let deadPlayer = state.players.find(p => p.collidesWithAny(state.obstacles));
+        if (deadPlayer) {
+            state.players = state.players.filter(p => p.id !== deadPlayer.id);
+        }
+
+        if (state.players.length === 0) {
             throw new Error();
         }
+        
         setTimeout(tick, getTickRate(startTime));
     };
 
