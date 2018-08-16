@@ -1,5 +1,5 @@
 const scanInput = require('./input');
-const roundFactory = require('./round');
+const levelFactory = require('./level');
 const scoresFactory = require('./scores');
 
 async function runGame({width, height}, state, input) {
@@ -7,10 +7,10 @@ async function runGame({width, height}, state, input) {
     let topScore = 0;
 
     while (topScore < 25 || playerTotals.filter(total => total === topScore).length > 1) {
-        state.round = roundFactory.init({width, height}, input);
-        await state.round.activity;
-        const players = state.round.players;
-        delete state.round;
+        state.level = levelFactory.init({width, height}, input);
+        await state.level.activity;
+        const players = state.level.players;
+        delete state.level;
         state.scores = scoresFactory.init(players, playerTotals);
         playerTotals = await state.scores.activity;
         delete state.scores;

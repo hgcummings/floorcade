@@ -1,10 +1,10 @@
-const round = require('./round');
+const level = require('./level');
 
 module.exports.init = ({width, height}) => {
 
     const render = state => {
         const pixels = new Uint8Array(width * height * 3);
-        round.render(state.round, pixels, {width, height});
+        level.render(state.level, pixels, {width, height});
         return pixels;
     }
 
