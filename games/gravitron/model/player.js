@@ -43,7 +43,7 @@ module.exports = class Player {
            this.x = this.screenWidth - this.width;
        }
 
-        let collisionWall = walls.find(w => this.dy > 0 ? w.y === this.y + this.height : w.y === this.y);
+        let collisionWall = walls.find(w => this.dy > 0 ? w.y === this.y + this.height - 1 : w.y === this.y);
         if (collisionWall) {
             this.dy = this.dy * -1;
             // TODO: dynamically do this width
