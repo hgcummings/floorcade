@@ -75,6 +75,9 @@ async function runGame({ width, height }, state, input) {
 
         state.players.forEach(p => p.move(state.walls));
         state.obstacles.forEach(p => p.move(state.walls));
+        if(state.players.find(p => p.collidesWithAny(state.obstacles))){
+            throw new Error();
+        }
         setTimeout(tick, getTickRate(startTime));
     };
 

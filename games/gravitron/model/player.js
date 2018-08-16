@@ -57,5 +57,11 @@ module.exports = class Player {
         return this.dy < 0 ? this.shapeCoordsFacingDown : this.shapeCoordsFacingUp;
     }
 
+    playerCoords() {
+        return this.shapeCoords().map(c => [c[0] + this.x, c[1] + this.y]);
+    }
 
+    collidesWithAny(obstacles) {
+        return !!this.playerCoords().find(c => obstacles.find(o => o.x === c[0] && o.y === c[1]));
+    }
 };
