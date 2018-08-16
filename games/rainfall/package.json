@@ -1,0 +1,18 @@
+{
+  "name": "rainfall",
+  "version": "1.0.0",
+  "description": "Colours on the png returned from the rainfall radar map overlay:",
+  "main": "controller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+     "js-pixel-fonts": "1.3.0",
+     "argparse": "^1.0.10",
+     "most": "^1.7.3",
+     "pngjs": "^3.3.3"
+  }
+}
+
