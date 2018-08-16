@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs';
 
 export interface State {
-    player: { x: number, y: number, score: number };
+    player: { x: number, y: number, score: number, alive: boolean };
     pipes: { x: number, topY: number, bottomY: number }[];
 }
 
 export function init(width: number, height: number, inputEvents: Observable<{ playerId: number }>) {
-    const state = { player: { x: 1, y: 10, score: 0 }, pipes: [] };
+    const state = { player: { x: 1, y: 10, score: 0, alive: true }, pipes: [] };
     const activity = runGame(width, height, state, inputEvents);
 
     return {
@@ -34,9 +34,7 @@ async function runGame(width: number, height: number, state: State, input: Obser
             if (state.player.y < height - 2) {
                 state.player.y += 1;
             } else {
-                subscription.unsubscribe();
-                resolve();
-                return;
+                state.player.alive = false;
             }
 
             state.pipes.forEach(pipe => {
@@ -52,9 +50,7 @@ async function runGame(width: number, height: number, state: State, input: Obser
                 if (state.player.x === pipe.x) {
                     if (state.player.y < pipe.bottomY || state.player.y > pipe.topY) {
                         // Hit the pipe
-                        subscription.unsubscribe();
-                        resolve();
-                        return;
+                        state.player.alive = false;
                     } else {
                         // Through the pipe
                         state.player.score++;
@@ -69,6 +65,12 @@ async function runGame(width: number, height: number, state: State, input: Obser
                     bottomY: midpoint - pipeGap / 2,
                     topY: midpoint + pipeGap / 2,
                 });
+            }
+
+            if (!state.player.alive) {
+                subscription.unsubscribe();
+                resolve();
+                return;
             }
 
             setTimeout(tick, getTickRate(startTime));
