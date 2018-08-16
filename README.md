@@ -19,7 +19,11 @@ Note the `--recurse-submodules` argument, which you should add when cloning and 
 
 ### Individual game test harness
 
-Games can be tested in isolation using the test harness, which provides console-based emulation of the dancefloor display and gamepad input. This does not require the optional dependency `node-hid`.
+Games can be tested in isolation using one of the two test harnesses, which provides emulation of dancefloor display and gamepad input.
+
+#### Harness.js
+
+harness.js emulates the dancefloor in your console. This does not require the optional dependency `node-hid`.
 
 To run a game using the test harness, execute `harness.js` and pass in the name of the game's directory under the `games` directory, e.g. `node harness.js tetris`
 
@@ -43,6 +47,18 @@ Controller input is emulated via the keyboard using the mapping below. By defaul
 ```
 
 (Note that controller emulation is based on the standard input stream. A single button press is emulated each time the corresponding character is typed. This means that holding down a key will emulate repeatedly tapping the corresponding button at your system's keyboard repeat rate. For many games, this will have a similar effect to holding down the button, but it may not be identical in all cases.)
+
+#### Harness-rs
+
+Harness-rs emulates the dancefloor using SDL2 for input/display. It requires stable Rust 1.27+, and SDL2.
+
+To run a game, from `harness-rs`, execute the project with a game's name as the only argument. E.g:
+```
+cd harness-rs
+cargo run tetris
+```
+
+Input uses the same key mapping as for harness.js, above.
 
 ### Integration mode
 
