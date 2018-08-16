@@ -18,7 +18,9 @@ async function runGame({ width, height }, state, input) {
 
     state.players = [
         new Player({ id: 1, x: 12, y: 12, screenWidth: width }),
-        new Player({ id: 2, x: 24, y: 20, screenWidth: width })
+        new Player({ id: 2, x: 24, y: 20, screenWidth: width }),
+        new Player({ id: 3, x: 40, y: 30, screenWidth: width }),
+        new Player({ id: 4, x: 56, y: 20, screenWidth: width }),
     ];
 
     state.obstacles = [

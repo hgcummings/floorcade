@@ -7,10 +7,10 @@ module.exports = {
             row.map((p, x) => {
                     if (wall.indentsX && wall.indentsX.find(wx => Math.abs(wx - x) < 2)) {
                         const indentY = wall.top ? wall.y - 1 : wall.y + 1;
-                        return y === indentY ? palette.tertiary : p;
+                        return y === indentY ? palette.walls : p;
                     }
                     else {
-                        return y === wall.y ? palette.tertiary : p;
+                        return y === wall.y ? palette.walls: p;
                     }
                 }
             )

@@ -6,7 +6,7 @@ module.exports = {
         return pixels.map((row, y) =>
             row.map((p, x) =>
                 x === obstacle.x && y === obstacle.y
-                    ? palette.primary
+                    ? palette.obstacles
                     : p
             ));
 
