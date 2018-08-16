@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import * as player from 'node-wav-player';
 
 export interface State {
     player: { x: number, y: number, score: number, alive: boolean };
@@ -24,6 +25,7 @@ async function runGame(width: number, height: number, state: State, input: Obser
         let tickCount = 0;
         const subscription = input.subscribe(currentInput => {
             if (state.player.y > 0) {
+                player.play({ path: './assets/flap.wav' });
                 state.player.y -= 1;
             }
         });
@@ -34,6 +36,7 @@ async function runGame(width: number, height: number, state: State, input: Obser
             if (state.player.y < height - 2) {
                 state.player.y += 1;
             } else {
+                player.play({ path: './assets/hit.wav' });
                 state.player.alive = false;
             }
 
@@ -50,9 +53,11 @@ async function runGame(width: number, height: number, state: State, input: Obser
                 if (state.player.x === pipe.x) {
                     if (state.player.y < pipe.bottomY || state.player.y > pipe.topY) {
                         // Hit the pipe
+                        player.play({ path: './assets/hit.wav' });
                         state.player.alive = false;
                     } else {
                         // Through the pipe
+                        player.play({ path: './assets/score.wav' });
                         state.player.score++;
                     }
                 }
@@ -68,6 +73,7 @@ async function runGame(width: number, height: number, state: State, input: Obser
             }
 
             if (!state.player.alive) {
+                player.play({ path: './assets/gameover.wav' });
                 subscription.unsubscribe();
                 resolve();
                 return;
