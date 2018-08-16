@@ -21,9 +21,9 @@ async function runGame({ width, height }, state, input) {
     ];
 
     state.obstacles = [
-        new Obstacle(-10, 13, 1),
-        new Obstacle(-14, 15, 1),
-        new Obstacle(-20, 28, 1),
+        new Obstacle({x: -10, y: 13, dx: 1}),
+        new Obstacle({x: -14, y: 15, dx: 1}),
+        new Obstacle({x: -20, y: 28, dx: 1}),
     ];
 
     input.subscribe(e => {
@@ -62,7 +62,8 @@ async function runGame({ width, height }, state, input) {
         const x = (Math.random() - 0.5) > 0 ? -1 : width + 1;
         const y = Math.floor((Math.random() * (height - wallBezel - wallBezel)) + wallBezel);
         const dx = x < 0 ? 1 : -1;
-        state.obstacles.push(new Obstacle(x, y, dx));
+        const dy = (Math.random()) > 0.5 ? (Math.random() > 0.5) ? -1 : 1 : 0;
+        state.obstacles.push(new Obstacle({x, y, dx, dy, width}));
     }
 
     const tick = () => {
