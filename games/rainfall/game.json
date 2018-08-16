@@ -1,0 +1,8 @@
+{
+    "title": "Rainfall",
+    "command": "node controller.js",
+    "players": {
+        "min": 1,
+        "max": 1
+    }
+}
