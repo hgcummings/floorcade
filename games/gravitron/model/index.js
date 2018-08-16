@@ -1,4 +1,5 @@
 const Player = require('./player');
+const Obstacle = require('./obstacle');
 
 async function runGame({ width, height }, state, input) {
     const startTime = new Date().getTime();
@@ -12,7 +13,13 @@ async function runGame({ width, height }, state, input) {
     ];
 
     state.players = [
-        new Player(12, 12)
+        new Player(12, 12, width)
+    ];
+
+    state.obstacles = [
+        new Obstacle(-10, 13, 1),
+        new Obstacle(-14, 15, 1),
+        new Obstacle(-20, 28, 1),
     ];
 
     input.subscribe(e => {
@@ -48,6 +55,7 @@ async function runGame({ width, height }, state, input) {
 
     const tick = () => {
         state.players.forEach(p => p.move(state.walls));
+        state.obstacles.forEach(p => p.move(state.walls));
         setTimeout(tick, getTickRate(startTime));
     };
 

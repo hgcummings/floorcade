@@ -1,9 +1,12 @@
 module.exports = class Player {
-    constructor(x, y) {
+    constructor(x, y, screenWidth) {
+        console.error(x, y);
         this.x = x;
         this.y = y;
         this.dx = 0;
         this.dy = 1;
+
+        this.screenWidth = screenWidth;
 
         this.shapeCoordsFacingUp = [
             [0, 1],
@@ -31,6 +34,14 @@ module.exports = class Player {
     move(walls = []) {
         this.x += this.dx;
         this.y += this.dy;
+
+       if (this.x > this.screenWidth) {
+           this.x = 0;
+       }
+
+       if (this.x + this.width < 0) {
+           this.x = this.screenWidth - this.width;
+       }
 
         let collisionWall = walls.find(w => this.dy > 0 ? w.y === this.y + this.height : w.y === this.y);
         if (collisionWall) {

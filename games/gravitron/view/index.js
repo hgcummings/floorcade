@@ -1,5 +1,6 @@
 const wall = require('./wall');
 const player = require('./player');
+const obstacle = require('./obstacle');
 
 const palette = require('./palette.js');
 const _ = require('lodash');
@@ -10,6 +11,7 @@ module.exports.init = ({ width, height }) => {
         let pixels = background;
         state.walls.forEach(b => pixels = wall.render({ wall: b }, pixels));
         state.players.forEach(b => pixels = player.render({ player: b }, pixels));
+        state.obstacles.forEach(b => pixels = obstacle.render({ obstacle: b }, pixels));
         return (new Uint8Array(_.flattenDeep(pixels)));
     };
 
