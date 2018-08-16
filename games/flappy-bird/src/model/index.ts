@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs';
 
 export interface State {
-    player: { x: number, y: number };
+    player: { x: number, y: number, score: number };
     pipes: { x: number, topY: number, bottomY: number }[];
 }
 
 export function init(width: number, height: number, inputEvents: Observable<{ playerId: number }>) {
-    const state = { player: { x: 1, y: 10 }, pipes: [] };
+    const state = { player: { x: 1, y: 10, score: 0 }, pipes: [] };
     const activity = runGame(width, height, state, inputEvents);
 
     return {
@@ -49,10 +49,16 @@ async function runGame(width: number, height: number, state: State, input: Obser
                     pipe.topY = midpoint + pipeGap / 2;
                 }
 
-                if (state.player.x === pipe.x && (state.player.y < pipe.bottomY || state.player.y > pipe.topY)) {
-                    subscription.unsubscribe();
-                    resolve();
-                    return;
+                if (state.player.x === pipe.x) {
+                    if (state.player.y < pipe.bottomY || state.player.y > pipe.topY) {
+                        // Hit the pipe
+                        subscription.unsubscribe();
+                        resolve();
+                        return;
+                    } else {
+                        // Through the pipe
+                        state.player.score++;
+                    }
                 }
             });
 
