@@ -40,7 +40,7 @@ async function runGame({ width, height }, state, input) {
             if (e.type === 'up') {
             }
         }
-        if (e.key === 'DR') {
+        if (e.key === 'DR' || e.key === 'RS') {
             if (e.type === 'down') {
                 state.players.filter(p => p.id === e.id).forEach(p => p.dx = 1);
             }
@@ -48,7 +48,7 @@ async function runGame({ width, height }, state, input) {
                 state.players.filter(p => p.id === e.id).forEach(p => p.dx = 0);
             }
         }
-        if (e.key === 'DL') {
+        if (e.key === 'DL' || e.key === 'LS') {
             if (e.type === 'down') {
                 state.players.filter(p => p.id === e.id).forEach(p => p.dx = -1);
             }
@@ -84,7 +84,7 @@ async function runGame({ width, height }, state, input) {
         if (state.players.length === 0) {
             throw new Error();
         }
-        
+
         setTimeout(tick, getTickRate(startTime));
     };
 
