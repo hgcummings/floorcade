@@ -3,6 +3,7 @@ const Ball = require('./ball.js');
 const ballFactory = require('./ballFactory.js');
 const orientations = require('./orientations.js');
 
+
 const walls = [
     { player: 1, name: 'LEFT' },
     { player: 2, name: 'TOP' },
@@ -105,7 +106,9 @@ async function runGame({ width, height }, state, input) {
         state.bats = state.bats.filter(b => b.isAlive());
     }
 
+
     const tick = () => {
+
         state.bats.forEach(b => b.move({ width, height }));
         state.balls.forEach(b => b.move(state.bats, state.walls, { width, height }));
         loseLives();
@@ -125,7 +128,6 @@ async function runGame({ width, height }, state, input) {
     };
 
     setTimeout(tick, getTickRate(startTime));
-
 
     while (state.bats.filter(b => b.isAlive()).length > 0 && state.balls.length > 0) {
         await new Promise(() => {

@@ -2,14 +2,18 @@ const Player = require('./player');
 const Obstacle = require('./obstacle');
 
 async function runGame({ width, height }, state, input) {
+
+    let frame = 0;
+    const wallBezel = 2;
+
     const startTime = new Date().getTime();
     const getTickRate = function () {
         return Math.min(75, 200 - ((new Date().getTime() - startTime) / 1000));
     };
 
     state.walls = [
-        { y: 2, top: true },
-        { y: height - 2, top: false }
+        { y: wallBezel, top: true },
+        { y: height - wallBezel, top: false }
     ];
 
     state.players = [
@@ -53,7 +57,22 @@ async function runGame({ width, height }, state, input) {
         }
     });
 
+
+    function makeRandomObstacle() {
+        const x = (Math.random() - 0.5) > 0 ? -1 : width + 1;
+        const y = Math.floor((Math.random() * (height - wallBezel - wallBezel)) + wallBezel);
+        const dx = x < 0 ? 1 : -1;
+        state.obstacles.push(new Obstacle(x, y, dx));
+    }
+
     const tick = () => {
+        frame++;
+        frame = frame % 10;
+
+        if (frame === 1) {
+            makeRandomObstacle();
+        }
+
         state.players.forEach(p => p.move(state.walls));
         state.obstacles.forEach(p => p.move(state.walls));
         setTimeout(tick, getTickRate(startTime));
