@@ -7,8 +7,8 @@ async function runGame({ width, height }, state, input) {
     };
 
     state.walls = [
-        { y: 5 },
-        { y: height - 5 }
+        { y: 2, top: true },
+        { y: height - 2, top: false }
     ];
 
     state.players = [
@@ -16,42 +16,39 @@ async function runGame({ width, height }, state, input) {
     ];
 
     input.subscribe(e => {
-        const movement = [0, 0];
         if (e.key === 'DU') {
             if (e.type === 'down') {
-                movement[1]--;
             }
             if (e.type === 'up') {
-                movement[1]++;
             }
         }
         if (e.key === 'DD') {
             if (e.type === 'down') {
-                movement[1]++;
             }
             if (e.type === 'up') {
-                movement[1]--;
             }
         }
         if (e.key === 'DR') {
             if (e.type === 'down') {
-                movement[0]++;
+                state.players.forEach(p => p.dx = 1);
             }
             if (e.type === 'up') {
-                movement[0]--;
+                state.players.forEach(p => p.dx = 0);
             }
         }
         if (e.key === 'DL') {
             if (e.type === 'down') {
-                movement[0]--;
+                state.players.forEach(p => p.dx = -1);
             }
             if (e.type === 'up') {
-                movement[0]++;
+                state.players.forEach(p => p.dx = 0);
             }
         }
     });
 
     const tick = () => {
+        state.players.forEach(p => p.move(state.walls));
+        setTimeout(tick, getTickRate(startTime));
     };
 
     setTimeout(tick, getTickRate(startTime));
