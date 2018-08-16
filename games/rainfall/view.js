@@ -8,7 +8,7 @@ module.exports.init = (config) => {
 
     const sourceImageNames = fs.readdirSync('./sourceImages');
     
-    sourceImageNames.sort().forEach((filename) => {
+    sourceImageNames.sort().forEach((filename, i) => {
         fs.createReadStream(`./sourceImages/${filename}`)
             .pipe(new PNG({
                 filterType: 4
@@ -27,7 +27,7 @@ module.exports.init = (config) => {
                     }
                 }
                 drawTimestamp(frame, Math.floor(config.width / 2), filename.slice(11,16), 20);
-                frames.push(frame);
+                frames[i] = frame;
             }); 
     });
 
