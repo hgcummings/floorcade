@@ -23,10 +23,7 @@ class Player {
         this.dheight = 1;
         this.alive = true;
         this.nextDirection = [];
-        this.score = {
-            place: 0,
-            kills: 0
-        }
+        this.score = 0;
     }
 
     updateDirection(direction) {
@@ -63,5 +60,9 @@ class Player {
                 throw new Error("you dead")
             }
         }
+    }
+
+    updateScore(timeSinceStart) {
+        this.score = Math.round(timeSinceStart/1000);
     }
 }
