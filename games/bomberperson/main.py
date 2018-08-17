@@ -12,7 +12,7 @@ def wall():
     return Tile(False, Color(50,50,50))
 
 def box():
-    return Tile(False, Color(150,150,150), True)
+    return Tile(False, Color(0,0,0), True)
 
 def floor():
     return Tile(True, Color(0,200,0))
