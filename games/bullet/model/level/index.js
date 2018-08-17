@@ -1,7 +1,6 @@
 const players = require('./players');
 const bullet = require('./bullet');
 const log = require('../../log');
-const placeScores = [0, 1, 2, 5];
 
 module.exports.init = ({width, height}, input) => {
     const state = {
@@ -31,19 +30,14 @@ module.exports.init = ({width, height}, input) => {
             state.bullets.push(bullet.init(timeSinceStart));
         }
 
-        if (deadPlayers.length === 4) {
+        if (deadPlayers.length === 1) {
             subscription.unsubscribe();
             resolveComplete();
         }
+
         state.players.filter(p => p.alive).forEach(player => {
             player.checkCollisions(state);
-        });
-
-        state.players.filter(p => !p.alive).forEach(p => {
-            if (!deadPlayers.includes(p.id)) {
-                // Player died this turn
-                p.score.place += placeScores[deadPlayers.length];
-            }
+            player.updateScore(timeSinceStart);
         });
 
         state.players.forEach(p => {

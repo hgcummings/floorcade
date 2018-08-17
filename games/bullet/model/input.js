@@ -1,5 +1,5 @@
 const directionBtns = ['DU','DR','DD','DL'];
-const {validDirections} = require('./round/directions');
+const {validDirections} = require('./level/directions');
 const {scan} = require('rxjs/operators');
 
 module.exports = (playerEvents) => 
