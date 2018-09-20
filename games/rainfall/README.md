@@ -1,3 +1,15 @@
+Add install.sh and set permissions with git update-index --chmod=+x install.sh
+
+Previously the dependencies had been placed in the top level node\_modules/, so it ran fine in the test harness (since node searches directories upwards to find them) but not on floorcade.
+
+Inspecting the changes made to the top level package.json, creating a games/rainfall/package.json, and cutting them into there.
+
+The file ordering was wrong, because the callback with frames.push was running asynchronously, so although the file read operations were started in a sorted order, the push order depended on the order in which the file reads were completed. Changed to an explicit array indexing.
+
+The timeout was too short, and the game didn't load, because (as stated above) the file reads were asynchronus, and didn't complete before the timeout.
+
+TODO: create an array of promises, Promise.all them, then block on the promises before sending READY to stdout.
+
 Colours on the png returned from the rainfall radar map overlay:
 
 [ { r: 199, g: 191, b: 193, opacity: 128 }, grey, no data
