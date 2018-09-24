@@ -8,7 +8,8 @@ module.exports.init = (config) => {
 
     const sourceImageNames = fs.readdirSync('./sourceImages');
     
-    sourceImageNames.sort().forEach((filename) => {
+    const filePromises = sourceImageNames.sort().map((filename, i) => new Promise(
+        (resolve, _) => {
         fs.createReadStream(`./sourceImages/${filename}`)
             .pipe(new PNG({
                 filterType: 4
@@ -27,9 +28,12 @@ module.exports.init = (config) => {
                     }
                 }
                 drawTimestamp(frame, Math.floor(config.width / 2), filename.slice(11,16), 20);
-                frames.push(frame);
+                frames[i] = frame;
+                resolve();
             }); 
-    });
+        }));
+
+    const allPromises = Promise.all(filePromises);
 
     const drawTimestamp = (frame, offset, timestamp, maxWidth) => {
         const scorePixels = renderPixels(timestamp, fonts.slumbers);
@@ -48,6 +52,7 @@ module.exports.init = (config) => {
 
     return {
         nFrames: sourceImageNames.length,
+        loading: allPromises,
         render
     };
 }

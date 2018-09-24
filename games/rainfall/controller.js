@@ -41,5 +41,7 @@ input.on('line', event => {
     }
 });
 
-process.stdout.write('READY\n');
+view.loading.then(() => { process.stdout.write('READY\n') });
+
+
 
