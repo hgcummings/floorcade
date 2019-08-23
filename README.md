@@ -37,9 +37,9 @@ Controller input is emulated via the keyboard using the mapping below. By defaul
       ,'       ___      Classic USB gamepad   ,'     __ X   `. `.
      /        | W |                          /      /I \      \  \
     /      ___|   |___                      /   __  \__/  __ A \  \
-    |     | A       S |      T ,.     Y ,.  |  /J \      /K \   | !
+    |     | A       D |      T ,.     Y ,.  |  /J \      /K \   | !
     !     |___     ___|      ,','     ,','  |  \__/  __  \__/   | |
-    \         | D |         ','      '.'    \ Y     /M \       /  /
+    \         | S |         ','      '.'    \ Y     /M \       /  /
      \        |___|        Select    Start   \      \__/      /  /
       `.                  ___________________ `._  B       _,' ,'
         `-._          _.'`                   `-._`'~-.,-~'`_.'`
